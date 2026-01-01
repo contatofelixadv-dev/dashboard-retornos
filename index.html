@@ -1,35 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<style>
-html {
-    display: none !important;
-}
-</style>
-
-<script>
-(function () {
-    const PAGE_PASSWORD = "rafaloiola2026";
-
-    const entered = prompt("Digite a senha para acessar o painel:");
-    if (entered !== PAGE_PASSWORD) {
-        alert("Senha incorreta. Acesso bloqueado.");
-        document.open();
-        document.write("");
-        document.close();
-        return;
-    }
-
-    // libera a renderização somente após senha correta
-    document.documentElement.style.display = "block";
-})();
-</script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Retornos | Dra. Rafaela Loiola</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* Esconde o corpo da página por padrão para a proteção de senha */
+        body { 
+            display: none !important; 
+            font-family: 'Inter', sans-serif; 
+            background-color: #fdf8f9; 
+            color: #4a3a3d; 
+            margin: 0; 
+            padding: 0; 
+        }
+
         :root {
             --primary: #d48e9b;
             --accent: #9c5d6a;
@@ -38,8 +25,6 @@ html {
             --border: #eecad0;
             --wa-green: #25d366;
         }
-
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; }
 
         header {
             background: linear-gradient(135deg, #e4aab5 0%, #d48e9b 100%);
@@ -113,6 +98,24 @@ html {
 
         .footer-spacer { height: 150px; width: 100%; }
     </style>
+
+    <script>
+        // LÓGICA DE SENHA CORRIGIDA
+        (function () {
+            const PAGE_PASSWORD = "rafaloiola2026";
+            const entered = prompt("Digite a senha para acessar o painel:");
+
+            if (entered === PAGE_PASSWORD) {
+                // Se a senha estiver correta, mostramos o body após o carregamento
+                const style = document.createElement('style');
+                style.innerHTML = "body { display: block !important; }";
+                document.head.appendChild(style);
+            } else {
+                alert("Senha incorreta. Acesso bloqueado.");
+                window.location.href = "about:blank"; 
+            }
+        })();
+    </script>
 </head>
 <body>
 
@@ -166,7 +169,6 @@ html {
 </button>
 
 <script>
-    // CHAVE ÚNICA PARA NÃO PERDER DADOS
     const STORAGE_KEY = 'DraRafaela_Dados_Oficial';
 
     let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
@@ -226,10 +228,11 @@ html {
     function render() {
         const body = document.getElementById('tableBody');
         const list = state[state.active];
-        document.getElementById('dateLabel').innerText = state.active === 'proximo' ? "DEVE VIR EM" : "VENCEU EM";
+        const dateLabel = document.getElementById('dateLabel');
+        if(dateLabel) dateLabel.innerText = state.active === 'proximo' ? "DEVE VIR EM" : "VENCEU EM";
 
         body.innerHTML = '';
-        if (list.length === 0) {
+        if (!list || list.length === 0) {
             body.innerHTML = '<tr><td colspan="8" style="padding:60px; color:#aaa;">Aguardando sua lista, Doutora! ✨</td></tr>';
             return;
         }
@@ -279,6 +282,7 @@ html {
         alert('Dados guardados com sucesso, Doutora! 💖🧸');
     }
 
+    // Inicializa a página
     render();
 </script>
 </body>
