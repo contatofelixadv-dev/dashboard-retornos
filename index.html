@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+<style>
+html {
+    display: none !important;
+}
+</style>
+
+<script>
+(function () {
+    const PAGE_PASSWORD = "rafaloiola2026";
+
+    const entered = prompt("Digite a senha para acessar o painel:");
+    if (entered !== PAGE_PASSWORD) {
+        alert("Senha incorreta. Acesso bloqueado.");
+        document.open();
+        document.write("");
+        document.close();
+        return;
+    }
+
+    // libera a renderização somente após senha correta
+    document.documentElement.style.display = "block";
+})();
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Retornos | Dra. Rafaela Loiola</title>
@@ -89,19 +113,6 @@
 
         .footer-spacer { height: 150px; width: 100%; }
     </style>
-
-<script>
-(function(){
-    const PAGE_PASSWORD = "rafaloiola2026";
-    const entered = prompt("Digite a senha para acessar o painel:");
-    if (entered !== PAGE_PASSWORD) {
-        alert("Senha incorreta.");
-        document.body.innerHTML = "";
-        throw new Error("Unauthorized");
-    }
-})();
-</script>
-
 </head>
 <body>
 
