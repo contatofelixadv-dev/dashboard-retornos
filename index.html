@@ -28,7 +28,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-// Configuração Oficial Supabase
 const sb = supabase.createClient(
     "https://kavfloijxglfzlwgvtmd.supabase.co",
     "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
@@ -100,7 +99,7 @@ border:none;padding:18px 38px;border-radius:50px;font-weight:800;cursor:pointer;
 box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100;
 }
 .footer-spacer{height:150px}
-#syncStatus { font-size: 0.8rem; color: #b87486; margin-top: 5px; font-weight: 600; }
+#syncStatus { font-size: 0.9rem; color: #b87486; margin-top: 8px; font-weight: 700; height: 20px; }
 </style>
 </head>
 
@@ -109,7 +108,7 @@ box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100;
 <header>
 <h1>🌸 Controle de Retornos de Pacientes 🌸</h1>
 <p>👩‍⚕️ Dra. Rafaela Loiola ✨</p>
-<div id="syncStatus">Sincronizando...</div>
+<div id="syncStatus">Carregando painel...</div>
 <div class="counters">
 <div class="counter">⏳ Pendentes: <span id="cPend">0</span></div>
 <div class="counter">✅ Agendados: <span id="cAgen">0</span></div>
@@ -164,60 +163,75 @@ box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100;
 </div>
 
 <div class="footer-spacer"></div>
-<button class="btn-save" onclick="saveData()">💖 Salvar Tudo na Nuvem</button>
+<button class="btn-save" id="btnSalvar" onclick="saveData()">💖 Salvar Tudo na Nuvem</button>
 
 <script>
 let state = { active: "proximo", proximo: [], vencidos: [] };
 
-// --- CARREGAR DADOS (TABELA painel_dados) ---
 async function loadFromCloud() {
-    document.getElementById("syncStatus").innerText = "🔄 Carregando dados...";
+    const statusEl = document.getElementById("syncStatus");
+    statusEl.innerText = "🔄 Sincronizando dados...";
     try {
-        const { data, error } = await sb.from("painel_dados").select("dados, updated_at").eq("id", 1).single();
+        const { data, error } = await sb.from("painel_dados").select("*").eq("id", 1).maybeSingle();
+        
+        if (error) throw error;
+
         if (data && data.dados) {
             state = data.dados;
-            document.getElementById("syncStatus").innerText = "✅ Atualizado em: " + new Date(data.updated_at).toLocaleTimeString();
-            render();
+            statusEl.innerText = "✅ Última atualização: " + new Date(data.updated_at).toLocaleTimeString();
         } else {
-            document.getElementById("syncStatus").innerText = "⚠️ Banco de dados vazio.";
-            render();
+            statusEl.innerText = "🌸 Pronto para começar (Sem dados na nuvem)";
         }
+        render();
     } catch (e) {
-        document.getElementById("syncStatus").innerText = "❌ Erro ao conectar.";
+        statusEl.innerText = "❌ Erro ao carregar: " + e.message;
+        console.error(e);
     }
 }
 
-// --- SALVAR DADOS (TABELA painel_dados) ---
 async function saveData() {
-    document.getElementById("syncStatus").innerText = "⏳ Salvando...";
+    const statusEl = document.getElementById("syncStatus");
+    const btn = document.getElementById("btnSalvar");
+    
+    statusEl.innerText = "⏳ Enviando para a nuvem...";
+    btn.disabled = true;
+
     try {
-        const { error } = await sb.from("painel_dados").upsert({
+        // Força o ID 1 e o formato JSON correto
+        const payload = {
             id: 1,
             dados: state,
             updated_at: new Date().toISOString()
-        });
-        if (!error) {
-            document.getElementById("syncStatus").innerText = "✅ Salvo com sucesso!";
-            alert("✨ Sincronizado com sucesso!");
-        }
+        };
+
+        const { error } = await sb.from("painel_dados").upsert(payload, { onConflict: 'id' });
+
+        if (error) throw error;
+
+        statusEl.innerText = "✅ Salvo com sucesso às " + new Date().toLocaleTimeString();
+        alert("✨ Dados sincronizados com sucesso!");
     } catch (e) {
-        alert("Erro ao salvar.");
+        statusEl.innerText = "❌ ERRO AO SALVAR";
+        alert("Erro técnico: " + e.message + "\nVerifique se a tabela 'painel_dados' tem a coluna 'id' como Primary Key.");
+        console.error(e);
+    } finally {
+        btn.disabled = false;
     }
 }
 
-// --- GERAR LOG (TABELA painel_logs) ---
 async function updateStatus(index, newStatus) {
     const item = state[state.active][index];
     const oldStatus = item.status;
     item.status = newStatus;
 
-    // Insert na tabela painel_logs (Colunas: paciente, status_anterior, status_novo, aba)
-    await sb.from("painel_logs").insert({
-        paciente: item.name,
-        status_anterior: oldStatus,
-        status_novo: newStatus,
-        aba: state.active
-    });
+    try {
+        await sb.from("painel_logs").insert([{
+            paciente: item.name,
+            status_anterior: oldStatus,
+            status_novo: newStatus,
+            aba: state.active
+        }]);
+    } catch(e) { console.error("Erro log:", e); }
 
     render();
 }
@@ -225,11 +239,10 @@ async function updateStatus(index, newStatus) {
 function render(){
     const body = document.getElementById("tableBody");
     const list = state[state.active] || [];
-    document.getElementById("dateLabel").innerText = state.active === "proximo" ? "Deve retornar" : "Venceu em";
+    document.getElementById("dateLabel").innerText = state.active === "proximo" ? "Deve retornar em" : "Venceu em";
     body.innerHTML = "";
 
-    // Contadores dinâmicos
-    let all = [...(state.proximo || []), ...(state.vencidos || [])];
+    const all = [...(state.proximo || []), ...(state.vencidos || [])];
     document.getElementById("cPend").textContent = all.filter(i => i.status === "Pendente").length;
     document.getElementById("cAgen").textContent = all.filter(i => i.status === "Agendado").length;
     document.getElementById("cTent").textContent = all.filter(i => i.status === "Tentar Novamente").length;
@@ -290,34 +303,31 @@ function importCSV(type, input){
             return { name: c[0], tel: c[1], last: c[2]||"", age: c[3]||"", due: c[4]||"", status: "Pendente", obs: "" };
         }).filter(x => x && x.name);
         render();
-        alert("Importado! Clique em 'Salvar na Nuvem' para gravar.");
+        alert("Importado! Clique em 'Salvar na Nuvem' para gravar definitivamente.");
     });
 }
 
 async function gerarLog(){
     if(!logIni.value || !logFim.value) { alert("Escolha as datas"); return; }
-    // Consulta conforme a coluna data_hora da sua TABELA 2
     const {data, error} = await sb.from("painel_logs")
         .select("*")
         .gte("data_hora", logIni.value+"T00:00:00")
         .lte("data_hora", logFim.value+"T23:59:59")
         .order("data_hora", {ascending:true});
         
-    if(error || !data || data.length === 0) { alert("Nenhum log encontrado neste período."); return; }
+    if(error || !data || data.length === 0) { alert("Nenhum log encontrado."); return; }
 
-    let txt = "LOG DE ATIVIDADES - DRA RAFAELA LOIOLA\n";
-    txt += "Período: " + logIni.value + " até " + logFim.value + "\n\n";
+    let txt = "LOG DE ATIVIDADES - DRA RAFAELA LOIOLA\n\n";
     data.forEach(l => {
-        txt += `${new Date(l.data_hora).toLocaleString()} | Paciente: ${l.paciente} | Alteração: ${l.status_anterior} -> ${l.status_novo} | Aba: ${l.aba}\n`;
+        txt += `${new Date(l.data_hora).toLocaleString()} | ${l.paciente} | ${l.status_anterior} -> ${l.status_novo} | ${l.aba}\n`;
     });
     const blob = new Blob([txt], {type:"text/plain"});
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `log_retornos_${new Date().toLocaleDateString()}.txt`;
+    a.download = `log_retornos.txt`;
     a.click();
 }
 
-// Inicialização
 document.addEventListener("DOMContentLoaded", loadFromCloud);
 </script>
 
