@@ -1,262 +1,171 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Retornos | Dra. Rafaela Loiola</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Retornos | Dra. Rafaela Loiola</title>
 
-    <style>
-        body {
-            display: none !important;
-            font-family: 'Inter', sans-serif;
-            background-color: #fdf8f9;
-            color: #4a3a3d;
-            margin: 0;
-            padding: 0;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-        :root {
-            --primary: #d48e9b;
-            --accent: #9c5d6a;
-            --border: #eecad0;
-            --wa-green: #25d366;
-        }
+<style>
+body{display:none;font-family:Inter;background:#fdf8f9;margin:0}
+header{background:#d48e9b;color:#fff;padding:20px;text-align:center}
+.container{max-width:98%;margin:20px auto}
+.btn-save{position:fixed;bottom:20px;right:20px;padding:15px 30px;border:none;border-radius:30px;background:#9c5d6a;color:#fff;font-weight:700;cursor:pointer}
+.tabs{text-align:center;margin-bottom:15px}
+.tab-btn{padding:10px 25px;border-radius:25px;border:1px solid #ccc;background:#fff;font-weight:700;cursor:pointer}
+.tab-btn.active{background:#d48e9b;color:#fff}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid #eee;text-align:center}
+textarea,select,input{width:95%;padding:6px;border-radius:8px;border:1px solid #ccc}
+.log-box{margin-top:40px;padding:20px;border-top:2px dashed #d48e9b}
+</style>
 
-        header {
-            background: linear-gradient(135deg, #e4aab5 0%, #d48e9b 100%);
-            color: white;
-            padding: 1.5rem 1rem;
-            text-align: center;
-        }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabase = window.supabase.createClient(
+  "https://kavfloijxglfzlwgvtmd.supabase.co",
+  "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
+);
+</script>
 
-        header h1 {
-            font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        .container { max-width: 98%; margin: 1rem auto; }
-
-        .import-section {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 1.5rem;
-        }
-
-        .import-box {
-            background: white;
-            padding: 10px 15px;
-            border-radius: 15px;
-            border: 2px dashed var(--primary);
-            text-align: center;
-            max-width: 350px;
-            flex: 1;
-        }
-
-        .btn-file {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .tab-btn {
-            padding: 12px 30px;
-            border-radius: 25px;
-            border: 1px solid var(--border);
-            background: white;
-            color: var(--accent);
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        table { width: 100%; border-collapse: collapse; }
-
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            text-align: center;
-        }
-
-        textarea, select {
-            width: 95%;
-            border-radius: 10px;
-            padding: 6px;
-            border: 1px solid var(--border);
-        }
-
-        .btn-save {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-    </style>
-
-    <!-- SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const supabase = window.supabase.createClient(
-            "https://kavfloijxglfzlwgvtmd.supabase.co",
-            "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
-        );
-    </script>
-
-    <!-- SENHA DE ACESSO -->
-    <script>
-        (function () {
-            const PAGE_PASSWORD = "rafaloiola2026";
-            const entered = prompt("Digite a senha para acessar o painel:");
-
-            if (entered === PAGE_PASSWORD) {
-                const style = document.createElement("style");
-                style.innerHTML = "body { display: block !important; }";
-                document.head.appendChild(style);
-            } else {
-                alert("Senha incorreta.");
-                window.location.href = "about:blank";
-            }
-        })();
-    </script>
+<script>
+(function(){
+ const senha="rafaloiola2026";
+ if(prompt("Digite a senha:")===senha){
+  document.body.style.display="block";
+ }else{
+  alert("Acesso negado");
+  location.href="about:blank";
+ }
+})();
+</script>
 </head>
 
 <body>
 
 <header>
-    <h1>Controle de Retornos de Pacientes</h1>
-    <p>🌸 Dra. Rafaela Loiola 🌸</p>
+<h1>Controle de Retornos</h1>
+<p>Dra. Rafaela Loiola</p>
 </header>
 
 <div class="container">
 
-    <div class="import-section">
-        <div class="import-box">
-            <input type="file" hidden id="fP" onchange="importCSV('proximo', this)">
-            <button class="btn-file" onclick="fP.click()">📂 CARREGAR A VENCER</button>
-        </div>
-        <div class="import-box">
-            <input type="file" hidden id="fV" onchange="importCSV('vencidos', this)">
-            <button class="btn-file" onclick="fV.click()">📂 CARREGAR VENCIDOS</button>
-        </div>
-    </div>
+<div class="tabs">
+<button class="tab-btn active" id="tP" onclick="changeTab('proximo')">A VENCER</button>
+<button class="tab-btn" id="tV" onclick="changeTab('vencidos')">VENCIDOS</button>
+</div>
 
-    <div class="tabs">
-        <button class="tab-btn active" id="tP" onclick="changeTab('proximo')">A VENCER</button>
-        <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">VENCIDOS</button>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Paciente</th>
-                <th>Telefone</th>
-                <th>Vencimento</th>
-                <th>Status</th>
-                <th>Obs</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-    </table>
+<table>
+<thead>
+<tr><th>#</th><th>Paciente</th><th>Status</th><th>Obs</th></tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
 
 </div>
 
 <button class="btn-save" onclick="saveData()">SALVAR</button>
 
+<div class="container log-box">
+<h3>📄 Gerar LOG de Alterações</h3>
+<label>Data inicial:</label>
+<input type="date" id="logStart">
+<label>Data final:</label>
+<input type="date" id="logEnd">
+<br><br>
+<button class="tab-btn" onclick="exportLog()">📥 Gerar arquivo de LOG</button>
+</div>
+
 <script>
-    let state = { active: 'proximo', proximo: [], vencidos: [] };
+let state={active:'proximo',proximo:[],vencidos:[]};
 
-    function changeTab(t) {
-        state.active = t;
-        document.getElementById("tP").classList.toggle("active", t === "proximo");
-        document.getElementById("tV").classList.toggle("active", t === "vencidos");
-        render();
-    }
+function changeTab(t){
+ state.active=t;
+ document.getElementById("tP").classList.toggle("active",t==="proximo");
+ document.getElementById("tV").classList.toggle("active",t==="vencidos");
+ render();
+}
 
-    async function importCSV(type, input) {
-        const IMPORT_PASSWORD = "u47hbyk4";
-        if (prompt("Senha para importar:") !== IMPORT_PASSWORD) return;
+function render(){
+ const b=document.getElementById("tableBody");
+ b.innerHTML="";
+ state[state.active].forEach((p,i)=>{
+  b.innerHTML+=`
+  <tr>
+   <td>${i+1}</td>
+   <td>${p.name}</td>
+   <td>
+    <select onchange="update(${i},this.value)">
+     <option ${p.status=="Pendente"?"selected":""}>Pendente</option>
+     <option ${p.status=="Agendado"?"selected":""}>Agendado</option>
+     <option ${p.status=="Recusou"?"selected":""}>Recusou</option>
+    </select>
+   </td>
+   <td><textarea onchange="updateObs(${i},this.value)">${p.obs||""}</textarea></td>
+  </tr>`;
+ });
+}
 
-        const text = await input.files[0].text();
-        const rows = text.split(/\r?\n/).slice(1);
+async function update(i,v){
+ const item=state[state.active][i];
+ if(item.status===v)return;
 
-        state[type] = rows.map(r => {
-            const c = r.split(";");
-            return { name: c[0], tel: c[1], due: c[4], status: "Pendente", obs: "" };
-        }).filter(x => x.name);
+ await supabase.from("painel_logs").insert({
+  paciente:item.name,
+  status_anterior:item.status,
+  status_novo:v,
+  aba:state.active
+ });
 
-        await autoSave();
-        render();
-    }
+ item.status=v;
+ autoSave();
+}
 
-    function render() {
-        const body = document.getElementById("tableBody");
-        body.innerHTML = "";
+function updateObs(i,v){
+ state[state.active][i].obs=v;
+ autoSave();
+}
 
-        state[state.active].forEach((p, i) => {
-            body.innerHTML += `
-            <tr>
-                <td>${i+1}</td>
-                <td>${p.name}</td>
-                <td>${p.tel}</td>
-                <td>${p.due}</td>
-                <td>
-                    <select onchange="update(${i},'status',this.value)">
-                        <option>Pendente</option>
-                        <option>Agendado</option>
-                        <option>Recusou</option>
-                    </select>
-                </td>
-                <td><textarea onchange="update(${i},'obs',this.value)">${p.obs}</textarea></td>
-            </tr>`;
-        });
-    }
+async function autoSave(){
+ await supabase.from("painel").upsert({id:1,data:state});
+}
 
-    function update(i,f,v){
-        state[state.active][i][f]=v;
-        autoSave();
-    }
+async function loadData(){
+ const {data}=await supabase.from("painel").select("data").eq("id",1).single();
+ if(data?.data)state=data.data;
+ render();
+}
 
-    async function autoSave() {
-        await supabase.from("painel").upsert({ id: 1, data: state });
-    }
+async function exportLog(){
+ const ini=document.getElementById("logStart").value;
+ const fim=document.getElementById("logEnd").value;
 
-    async function loadData() {
-        const { data } = await supabase.from("painel").select("data").eq("id",1).single();
-        if (data?.data) state = data.data;
-        render();
-    }
+ const {data}=await supabase
+  .from("painel_logs")
+  .select("*")
+  .gte("created_at",ini+"T00:00:00")
+  .lte("created_at",fim+"T23:59:59")
+  .order("created_at",{ascending:true});
 
-    function saveData() {
-        autoSave();
-        alert("Dados salvos na nuvem ✅");
-    }
+ let txt="LOG DE ALTERAÇÕES\n\n";
+ data.forEach(l=>{
+  txt+=`${new Date(l.created_at).toLocaleString()} | ${l.paciente} | ${l.status_anterior} → ${l.status_novo} | ${l.aba}\n`;
+ });
 
-    loadData();
+ const blob=new Blob([txt],{type:"text/plain"});
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="log_dashboard.txt";
+ a.click();
+}
+
+function saveData(){
+ autoSave();
+ alert("Salvo na nuvem");
+}
+
+loadData();
 </script>
 
 </body>
