@@ -228,14 +228,16 @@ function render(){
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
         
+        // MENSAGENS COM TRATAMENTO DE CARACTERES ESPECIAIS
         let msg = "";
         if(state.active === "proximo") {
-            msg = `Olá! Papai e mamãe, aqui é a Raquel, secretária da Dra. Rafaela Loiola. 🌸 Passando para informar que a nova consulta do(a) pequeno(a) *${it.name}* será necessária a partir de *${it.due}*. 🧸 Estou disponível para agendarmos um horário a partir dessa data, tudo bem? Vamos agendar? ✨🌈`;
+            msg = "Olá! Papai e mamãe, aqui é a Raquel, secretária da Dra. Rafaela Loiola. 🌸 Passando para informar que a nova consulta do(a) pequeno(a) *" + it.name + "* será necessária a partir de *" + it.due + "*. 🧸 Estou disponível para agendarmos um horário a partir dessa data, tudo bem? Vamos agendar? ✨🌈";
         } else {
-            msg = `Olá! Papai e mamãe, aqui é a Raquel, secretária da Dra. Rafaela Loiola. 🌸 Tudo bem com vocês? Notamos que a consulta do(a) *${it.name}* venceu em *${it.due}*. 🍭 Gostariam de aproveitar para atualizar o acompanhamento e agendarmos um horário para a Dra. Rafaela ver como ele(a) está? Estou à disposição! 🎈✨`;
+            msg = "Olá! Papai e mamãe, aqui é a Raquel, secretária da Dra. Rafaela Loiola. 🌸 Tudo bem com vocês? Notamos que a consulta do(a) *" + it.name + "* venceu em *" + it.due + "*. 🍭 Gostariam de aproveitar para atualizar o acompanhamento e agendarmos um horário para a Dra. Rafaela ver como ele(a) está? Estou à disposição! 🎈✨";
         }
         
-        const waUrl = `https://wa.me/55${waClean}?text=${encodeURIComponent(msg)}`;
+        // Uso de encodeURIComponent garante que emojis e caracteres especiais virem códigos aceitos pela URL do WhatsApp
+        const waUrl = "https://wa.me/55" + waClean + "?text=" + encodeURIComponent(msg);
 
         const tr = document.createElement("tr");
         tr.className = `status-${it.status.replace(/\s/g, '\\ ')}`;
