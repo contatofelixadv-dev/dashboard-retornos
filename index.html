@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Controle de Retornos | Dra. Rafaela Loiola</title>
 
-<style>
-body{display:none!important}
-</style>
+<style>body{display:none!important}</style>
 
 <script>
 (function(){
@@ -35,204 +33,67 @@ const sb=supabase.createClient(
 </script>
 
 <style>
-/* PALETA MAIS SUAVE */
 :root{
---bg:#fdfafb;
---card:#ffffff;
---primary:#e8b6c2;
---accent:#b87486;
---border:#f1d6dd;
---text:#4a3a3d;
-
---pendente:transparent;
---agendado:#e6f2ec;
---tentar:#f5efe6;
---recusou:#f3e1e1;
-
+--bg:#fdfafb;--card:#fff;--primary:#e8b6c2;--accent:#b87486;
+--border:#f1d6dd;--text:#4a3a3d;
+--agendado:#e6f2ec;--tentar:#f5efe6;--recusou:#f3e1e1;
 --wa:#25d366;
 }
-
-body{
-font-family:'Inter',sans-serif;
-background:var(--bg);
-color:var(--text);
-margin:0
-}
-
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);margin:0}
 header{
 background:linear-gradient(135deg,#f3ccd6,#e6b7c3);
-color:#5a2f3a;
-padding:2.6rem 1rem;
-text-align:center
+padding:2.6rem 1rem;text-align:center
 }
-header h1{
-margin:0;
-font-family:'Quicksand',sans-serif;
-font-size:2.5rem;
-letter-spacing:1px
-}
-header p{
-margin:10px 0 0;
-font-size:1.3rem;
-font-weight:800
-}
+header h1{margin:0;font-size:2.5rem;font-family:'Quicksand'}
+header p{margin:10px 0 0;font-size:1.3rem;font-weight:800}
+.counters{display:flex;justify-content:center;gap:18px;margin-top:22px;flex-wrap:wrap}
+.counter{background:#ffffffaa;padding:12px 20px;border-radius:20px;font-weight:700}
 
-.counters{
-display:flex;
-justify-content:center;
-gap:18px;
-margin-top:22px;
-flex-wrap:wrap
-}
-.counter{
-background:rgba(255,255,255,.65);
-padding:12px 20px;
-border-radius:20px;
-font-weight:700;
-box-shadow:0 2px 8px rgba(0,0,0,.04)
-}
-
-.container{max-width:98%;margin:1.2rem auto}
-
-.tabs{
-display:flex;
-justify-content:center;
-gap:14px;
-margin-bottom:1.2rem
-}
+.tabs{display:flex;justify-content:center;gap:14px;margin:1.2rem}
 .tab-btn{
-padding:14px 40px;
-border-radius:35px;
-border:1px solid var(--border);
-background:var(--card);
-font-weight:800;
-cursor:pointer;
-font-size:1rem;
-display:flex;
-align-items:center;
-gap:10px
+padding:14px 40px;border-radius:35px;border:1px solid var(--border);
+background:#fff;font-weight:800;cursor:pointer;font-size:1rem;
+display:flex;align-items:center;gap:10px
 }
-.tab-btn span{
-font-size:1.4rem
-}
-.tab-btn.active{
-background:var(--primary);
-color:#fff;
-border-color:var(--primary)
-}
+.tab-btn span{font-size:1.5rem}
+.tab-btn.active{background:var(--primary);color:#fff}
 
-.table-card{
-background:var(--card);
-border-radius:24px;
-overflow:hidden;
-box-shadow:0 6px 22px rgba(0,0,0,.05)
-}
+.table-card{background:#fff;border-radius:24px;overflow:hidden;margin:0 1rem}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{background:#fbf1f4;padding:12px;font-size:.72rem;color:var(--accent)}
+td{padding:10px;border-bottom:1px solid var(--border);text-align:center;font-size:.86rem}
 
-table{
-width:100%;
-border-collapse:collapse;
-table-layout:fixed
-}
-th{
-background:#fbf1f4;
-padding:12px 6px;
-font-size:.72rem;
-text-transform:uppercase;
-color:var(--accent)
-}
-td{
-padding:10px 6px;
-border-bottom:1px solid var(--border);
-text-align:center;
-font-size:.86rem;
-vertical-align:middle
-}
+.w-seq{width:32px}.w-paciente{width:18%}.w-tel{width:180px}
+.w-data{width:95px}.w-idade{width:140px}.w-status{width:200px}.w-obs{width:auto}
 
-.w-seq{width:32px}
-.w-paciente{width:18%}
-.w-tel{width:180px}
-.w-data{width:95px}
-.w-idade{width:140px}
-.w-status{width:200px}
-.w-obs{width:auto}
-
-textarea,select{
-width:96%;
-border-radius:12px;
-border:1px solid var(--border);
-padding:8px;
-font-family:inherit;
-background:#fff
-}
+textarea,select{width:96%;border-radius:12px;border:1px solid var(--border);padding:8px}
 
 .wa-btn{
-display:inline-flex;
-align-items:center;
-gap:8px;
-background:#eef8f1;
-color:#1e8449;
-text-decoration:none;
-padding:8px 14px;
-border-radius:16px;
-font-weight:700
+display:inline-flex;align-items:center;gap:8px;
+background:#eef8f1;color:#1e8449;text-decoration:none;
+padding:8px 14px;border-radius:16px;font-weight:700
 }
 .wa-btn:hover{background:var(--wa);color:#fff}
 
-.status-Pendente{background:var(--pendente)}
 .status-Agendado{background:var(--agendado)}
 .status-Tentar\ Novamente{background:var(--tentar)}
 .status-Recusou{background:var(--recusou)}
 
-.import-section{
-display:flex;
-gap:16px;
-justify-content:center;
-margin:45px auto 25px
-}
+.import-section{display:flex;gap:16px;justify-content:center;margin:45px auto 25px}
 .import-box{
-background:var(--card);
-padding:16px;
-border-radius:22px;
-border:2px dashed var(--primary);
-flex:1;
-max-width:360px;
-text-align:center
+background:#fff;padding:16px;border-radius:22px;border:2px dashed var(--primary);
+max-width:360px;flex:1;text-align:center
 }
 .btn-file{
-background:var(--accent);
-color:#fff;
-border:none;
-padding:12px;
-border-radius:18px;
-font-weight:800;
-cursor:pointer;
-width:100%
-}
-.btn-file:hover{background:var(--primary)}
-
-.log-box{
-margin:30px auto;
-background:var(--card);
-padding:28px;
-border-radius:26px;
-max-width:650px;
-text-align:center
+background:var(--accent);color:#fff;border:none;
+padding:12px;border-radius:18px;font-weight:800;cursor:pointer;width:100%
 }
 
+.log-box{margin:30px auto;background:#fff;padding:28px;border-radius:26px;max-width:650px;text-align:center}
 .btn-save{
-position:fixed;
-bottom:26px;
-right:26px;
-background:var(--accent);
-color:#fff;
-border:none;
-padding:18px 38px;
-border-radius:50px;
-font-weight:800;
-cursor:pointer;
-box-shadow:0 10px 24px rgba(184,116,134,.35)
+position:fixed;bottom:26px;right:26px;background:var(--accent);color:#fff;
+border:none;padding:18px 38px;border-radius:50px;font-weight:800;cursor:pointer
 }
-
 .footer-spacer{height:150px}
 </style>
 </head>
@@ -250,8 +111,6 @@ box-shadow:0 10px 24px rgba(184,116,134,.35)
 </div>
 </header>
 
-<div class="container">
-
 <div class="tabs">
  <button class="tab-btn" id="tP" onclick="changeTab('proximo')"><span>🧸</span> A vencer</button>
  <button class="tab-btn" id="tV" onclick="changeTab('vencidos')"><span>🍂</span> Vencidos</button>
@@ -261,14 +120,9 @@ box-shadow:0 10px 24px rgba(184,116,134,.35)
 <table>
 <thead>
 <tr>
-<th class="w-seq">#</th>
-<th class="w-paciente">Paciente</th>
-<th class="w-tel">WhatsApp</th>
-<th class="w-data">Última consulta</th>
-<th class="w-idade">Idade</th>
-<th class="w-data" id="dateLabel"></th>
-<th class="w-status">Status</th>
-<th class="w-obs">Observações</th>
+<th>#</th><th>Paciente</th><th>WhatsApp</th>
+<th>Última</th><th>Idade</th>
+<th id="dateLabel"></th><th>Status</th><th>Observações</th>
 </tr>
 </thead>
 <tbody id="tableBody"></tbody>
@@ -287,13 +141,9 @@ box-shadow:0 10px 24px rgba(184,116,134,.35)
 </div>
 
 <div class="log-box">
-<h3>📜 Histórico de alterações</h3>
-<p>Selecione um período para gerar o arquivo ✨</p>
 <input type="date" id="logIni">
 <input type="date" id="logFim"><br><br>
-<button class="btn-file" onclick="gerarLog()">💾 Gerar arquivo de LOG</button>
-</div>
-
+<button class="btn-file" onclick="gerarLog()">💾 Gerar LOG</button>
 </div>
 
 <div class="footer-spacer"></div>
@@ -305,6 +155,18 @@ let state=JSON.parse(localStorage.getItem(STORAGE_KEY))||{
 active:"proximo",proximo:[],vencidos:[]
 };
 
+function formatAge(v){
+ if(!v) return "";
+ v=v.replace(",",".");
+ let n=parseFloat(v);
+ if(isNaN(n)) return v;
+ let a=Math.floor(n);
+ let m=Math.round((n-a)*100);
+ if(a>0&&m>0) return `${a} anos e ${m} meses`;
+ if(a>0) return `${a} anos`;
+ return `${m} meses`;
+}
+
 function changeTab(t){
  state.active=t;
  tP.classList.toggle("active",t==="proximo");
@@ -313,14 +175,14 @@ function changeTab(t){
 }
 
 function importCSV(type,input){
- if(prompt("🔒 Senha para importar")!=="u47hbyk4"){input.value="";return;}
+ if(prompt("Senha CSV")!=="u47hbyk4"){input.value="";return;}
  input.files[0].text().then(txt=>{
   const rows=txt.split(/\r?\n/).slice(1);
   state[type]=rows.map(r=>{
    const c=r.split(";").map(x=>x.trim());
    return{
-    name:c[0]||"",tel:c[1]||"",last:c[2]||"",
-    age:c[3]||"",due:c[4]||"",
+    name:c[0],tel:c[1],last:c[2],
+    age:formatAge(c[3]),due:c[4],
     status:"Pendente",obs:""
    };
   }).filter(x=>x.name);
@@ -331,13 +193,11 @@ function importCSV(type,input){
 async function update(i,v){
  const it=state[state.active][i];
  const old=it.status;
- if(old===v)return;
  it.status=v;
  await sb.from("painel_logs").insert({
   paciente:it.name,status_anterior:old,status_novo:v,aba:state.active
  });
- autoSave();
- render();
+ autoSave();render();
 }
 
 function render(){
@@ -354,7 +214,7 @@ function render(){
  cRec.textContent=all.filter(i=>i.status==="Recusou").length;
 
  if(!list.length){
-  body.innerHTML="<tr><td colspan='8' style='padding:50px;color:#aaa'>Aguardando com carinho 💕</td></tr>";
+  body.innerHTML="<tr><td colspan='8' style='padding:40px;color:#aaa'>Aguardando com carinho 💕</td></tr>";
   return;
  }
 
@@ -363,24 +223,20 @@ function render(){
   body.innerHTML+=`
 <tr class="status-${it.status}">
 <td>${i+1}</td>
-<td style="font-weight:700;color:var(--accent)">${it.name}</td>
-<td>
-<a class="wa-btn" target="_blank" href="${wa}">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" width="14"> ${it.tel}
-</a>
-</td>
+<td><strong>${it.name}</strong></td>
+<td><a class="wa-btn" target="_blank" href="${wa}">WhatsApp</a></td>
 <td>${it.last}</td>
 <td>${it.age}</td>
-<td style="font-weight:700">${it.due}</td>
+<td>${it.due}</td>
 <td>
 <select onchange="update(${i},this.value)">
-<option ${it.status==="Pendente"?"selected":""}>⏳ Pendente</option>
-<option ${it.status==="Agendado"?"selected":""}>✅ Agendado</option>
-<option ${it.status==="Tentar Novamente"?"selected":""}>🔁 Tentar Novamente</option>
-<option ${it.status==="Recusou"?"selected":""}>❌ Recusou</option>
+<option ${it.status==="Pendente"?"selected":""}>Pendente</option>
+<option ${it.status==="Agendado"?"selected":""}>Agendado</option>
+<option ${it.status==="Tentar Novamente"?"selected":""}>Tentar Novamente</option>
+<option ${it.status==="Recusou"?"selected":""}>Recusou</option>
 </select>
 </td>
-<td><textarea onchange="it.obs=this.value">${it.obs||""}</textarea></td>
+<td><textarea onchange="it.obs=this.value;autoSave()">${it.obs||""}</textarea></td>
 </tr>`;
  });
 }
@@ -400,12 +256,11 @@ async function gerarLog(){
  });
  const blob=new Blob([txt],{type:"text/plain"});
  const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
- a.download="log.txt";
- a.click();
+ a.href=URL.createObjectURL(blob);a.download="log.txt";a.click();
 }
 
-changeTab(state.active);
+state.active="proximo";
+changeTab("proximo");
 </script>
 
 </body>
