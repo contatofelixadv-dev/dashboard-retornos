@@ -192,7 +192,6 @@ async function saveData() {
         alert("✨ Dados sincronizados!");
     } catch (e) {
         statusEl.innerText = "❌ Erro ao salvar.";
-        alert("Erro: " + e.message);
     } finally {
         btn.disabled = false;
     }
@@ -228,12 +227,12 @@ function render(){
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
         
-        // MENSAGENS CURTAS E EMOJIS EM HEXADECIMAL (Garante compatibilidade total)
+        // MENSAGENS CARINHOSAS, INFORMAIS E SEM EMOJIS (PARA EVITAR ERROS)
         let msg = "";
         if(state.active === "proximo") {
-            msg = "Oi! Aqui é a Raquel da Dra. Rafaela \uD83C\uDF38 A consulta de *" + it.name + "* está prevista para *" + it.due + "*. \uD83E\uDDF8 Vamos agendar? \u2728";
+            msg = "Oi! Aqui e a Raquel, secretaria da Dra. Rafaela. Tudo bem? Passando para avisar que a consulta do(a) *" + it.name + "* esta prevista para *" + it.due + "*. Vamos agendar um horariov?";
         } else {
-            msg = "Oi! Aqui é a Raquel da Dra. Rafaela \uD83C\uDF38 O retorno de *" + it.name + "* venceu em *" + it.due + "*. \uD83C\uDF6D Vamos marcar um horário? \uD83C\uDF88";
+            msg = "Oi! Aqui e a Raquel, da Dra. Rafaela. Como voces estao? Vi aqui que a consulta do(a) *" + it.name + "* venceu em *" + it.due + "*. Vamos aproveitar para deixar o acompanhamento em dia?";
         }
         
         const waUrl = "https://wa.me/55" + waClean + "?text=" + encodeURIComponent(msg);
@@ -278,7 +277,6 @@ function importCSV(type, input){
     const file = input.files[0];
     if(!file) return;
     file.text().then(txt => {
-        // AJUSTE: Limpa os dados anteriores antes de carregar o CSV novo
         state[type] = []; 
         const rows = txt.split(/\r?\n/).slice(1);
         state[type] = rows.map(r => {
@@ -286,9 +284,8 @@ function importCSV(type, input){
             if(c.length < 2) return null;
             return { name: c[0], tel: c[1], last: c[2]||"", age: c[3]||"", due: c[4]||"", status: "Pendente", obs: "" };
         }).filter(x => x && x.name);
-        
         render();
-        alert("Lista importada com sucesso! Não esqueça de Salvar na Nuvem.");
+        alert("Lista importada! Clique em salvar.");
     });
 }
 
@@ -298,8 +295,7 @@ async function gerarLog(){
         .select("*")
         .gte("data_hora", logIni.value+"T00:00:00")
         .lte("data_hora", logFim.value+"T23:59:59");
-        
-    if(error || !data || data.length === 0) { alert("Nenhum log encontrado."); return; }
+    if(error || !data || data.length === 0) { alert("Nenhum log."); return; }
     let txt = "LOG DE ATIVIDADES\n\n";
     data.forEach(l => {
         txt += `${new Date(l.data_hora).toLocaleString()} | ${l.paciente} | ${l.status_anterior} -> ${l.status_novo}\n`;
