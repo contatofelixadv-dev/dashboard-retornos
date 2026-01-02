@@ -191,8 +191,8 @@ async function saveData() {
         statusEl.innerText = "✅ Salvo com sucesso!";
         alert("✨ Dados sincronizados!");
     } catch (e) {
-        statusEl.innerText = "❌ Erro de RLS ou Conexão";
-        alert("Erro ao salvar: " + e.message);
+        statusEl.innerText = "❌ Erro ao salvar.";
+        alert("Erro: " + e.message);
     } finally {
         btn.disabled = false;
     }
@@ -228,12 +228,12 @@ function render(){
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
         
-        // MENSAGENS CURTAS E OBJETIVAS COM EMOJIS CODIFICADOS
+        // MENSAGENS CURTAS E EMOJIS EM HEXADECIMAL (Garante compatibilidade total)
         let msg = "";
         if(state.active === "proximo") {
-            msg = "Oi! Aqui é a Raquel da Dra. Rafaela Loiola \uD83C\uDF38 Passando para avisar que a consulta de *" + it.name + "* será necessária a partir de *" + it.due + "*. \uD83E\uDDF8 Vamos agendar um horário? \u2728";
+            msg = "Oi! Aqui é a Raquel da Dra. Rafaela \uD83C\uDF38 A consulta de *" + it.name + "* está prevista para *" + it.due + "*. \uD83E\uDDF8 Vamos agendar? \u2728";
         } else {
-            msg = "Oi! Aqui é a Raquel da Dra. Rafaela Loiola \uD83C\uDF38 Notamos que a consulta de *" + it.name + "* venceu em *" + it.due + "*. \uD83C\uDF6D Vamos aproveitar para atualizar o acompanhamento? \uD83C\uDF88";
+            msg = "Oi! Aqui é a Raquel da Dra. Rafaela \uD83C\uDF38 O retorno de *" + it.name + "* venceu em *" + it.due + "*. \uD83C\uDF6D Vamos marcar um horário? \uD83C\uDF88";
         }
         
         const waUrl = "https://wa.me/55" + waClean + "?text=" + encodeURIComponent(msg);
@@ -245,7 +245,6 @@ function render(){
             <td style="text-align:left"><strong>${it.name}</strong></td>
             <td>
                 <a class="wa-btn" target="_blank" href="${waUrl}">
-                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" width="14" style="filter:invert(42%) sepia(50%) saturate(400%) hue-rotate(110deg) brightness(95%) contrast(90%)">
                     WhatsApp
                 </a>
                 <div style="font-size:10px; margin-top:4px">${it.tel}</div>
@@ -279,14 +278,17 @@ function importCSV(type, input){
     const file = input.files[0];
     if(!file) return;
     file.text().then(txt => {
+        // AJUSTE: Limpa os dados anteriores antes de carregar o CSV novo
+        state[type] = []; 
         const rows = txt.split(/\r?\n/).slice(1);
         state[type] = rows.map(r => {
             const c = r.split(";").map(x => x.trim());
             if(c.length < 2) return null;
             return { name: c[0], tel: c[1], last: c[2]||"", age: c[3]||"", due: c[4]||"", status: "Pendente", obs: "" };
         }).filter(x => x && x.name);
+        
         render();
-        alert("Importado! Clique em 'Salvar na Nuvem'.");
+        alert("Lista importada com sucesso! Não esqueça de Salvar na Nuvem.");
     });
 }
 
