@@ -228,15 +228,14 @@ function render(){
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
         
-        // MENSAGENS COM TRATAMENTO DE CARACTERES ESPECIAIS
+        // MENSAGENS CURTAS E OBJETIVAS COM EMOJIS CODIFICADOS
         let msg = "";
         if(state.active === "proximo") {
-            msg = "Olá! Papai e mamãe, aqui é a Raquel, secretária da Dra. Rafaela Loiola. 🌸 Passando para informar que a nova consulta do(a) pequeno(a) *" + it.name + "* será necessária a partir de *" + it.due + "*. 🧸 Estou disponível para agendarmos um horário a partir dessa data, tudo bem? Vamos agendar? ✨🌈";
+            msg = "Oi! Aqui é a Raquel da Dra. Rafaela Loiola \uD83C\uDF38 Passando para avisar que a consulta de *" + it.name + "* será necessária a partir de *" + it.due + "*. \uD83E\uDDF8 Vamos agendar um horário? \u2728";
         } else {
-            msg = "Olá! Papai e mamãe, aqui é a Raquel, secretária da Dra. Rafaela Loiola. 🌸 Tudo bem com vocês? Notamos que a consulta do(a) *" + it.name + "* venceu em *" + it.due + "*. 🍭 Gostariam de aproveitar para atualizar o acompanhamento e agendarmos um horário para a Dra. Rafaela ver como ele(a) está? Estou à disposição! 🎈✨";
+            msg = "Oi! Aqui é a Raquel da Dra. Rafaela Loiola \uD83C\uDF38 Notamos que a consulta de *" + it.name + "* venceu em *" + it.due + "*. \uD83C\uDF6D Vamos aproveitar para atualizar o acompanhamento? \uD83C\uDF88";
         }
         
-        // Uso de encodeURIComponent garante que emojis e caracteres especiais virem códigos aceitos pela URL do WhatsApp
         const waUrl = "https://wa.me/55" + waClean + "?text=" + encodeURIComponent(msg);
 
         const tr = document.createElement("tr");
