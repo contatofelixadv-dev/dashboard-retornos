@@ -1,171 +1,223 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Controle de Retornos | Dra. Rafaela Loiola</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Retornos | Dra. Rafaela Loiola</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-<style>
-body{display:none;font-family:Inter;background:#fdf8f9;margin:0}
-header{background:#d48e9b;color:#fff;padding:20px;text-align:center}
-.container{max-width:98%;margin:20px auto}
-.btn-save{position:fixed;bottom:20px;right:20px;padding:15px 30px;border:none;border-radius:30px;background:#9c5d6a;color:#fff;font-weight:700;cursor:pointer}
-.tabs{text-align:center;margin-bottom:15px}
-.tab-btn{padding:10px 25px;border-radius:25px;border:1px solid #ccc;background:#fff;font-weight:700;cursor:pointer}
-.tab-btn.active{background:#d48e9b;color:#fff}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px;border-bottom:1px solid #eee;text-align:center}
-textarea,select,input{width:95%;padding:6px;border-radius:8px;border:1px solid #ccc}
-.log-box{margin-top:40px;padding:20px;border-top:2px dashed #d48e9b}
-</style>
+    <style>
+        body {
+            display: none;
+            font-family: 'Inter', sans-serif;
+            background-color: #fdf8f9;
+            color: #4a3a3d;
+            margin: 0;
+            padding: 0;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const supabase = window.supabase.createClient(
-  "https://kavfloijxglfzlwgvtmd.supabase.co",
-  "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
-);
-</script>
+        :root {
+            --primary: #d48e9b;
+            --accent: #9c5d6a;
+            --bg: #fdf8f9;
+            --text: #4a3a3d;
+            --border: #eecad0;
+            --wa-green: #25d366;
+        }
 
-<script>
-(function(){
- const senha="rafaloiola2026";
- if(prompt("Digite a senha:")===senha){
-  document.body.style.display="block";
- }else{
-  alert("Acesso negado");
-  location.href="about:blank";
- }
-})();
-</script>
+        header {
+            background: linear-gradient(135deg, #e4aab5 0%, #d48e9b 100%);
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        header p {
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 98%;
+            margin: 1rem auto;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--accent);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #fcf0f2;
+            padding: 12px;
+            font-size: 0.75rem;
+            color: var(--accent);
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f1dfe3;
+        }
+
+        select, textarea {
+            width: 95%;
+            border-radius: 8px;
+            padding: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .btn-save {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- ✅ SCRIPT DE SENHA CORRIGIDO -->
+    <script>
+        (function () {
+            const PAGE_PASSWORD = "rafaloiola2026";
+            const entered = prompt("Digite a senha para acessar o painel:");
+
+            if (entered === PAGE_PASSWORD) {
+                const style = document.createElement("style");
+                style.innerHTML = "body { display: block !important; }";
+                document.head.appendChild(style);
+            } else {
+                alert("Senha incorreta. Acesso bloqueado.");
+                window.location.href = "about:blank";
+            }
+        })();
+    </script>
 </head>
 
 <body>
 
 <header>
-<h1>Controle de Retornos</h1>
-<p>Dra. Rafaela Loiola</p>
+    <h1>Controle de Retornos de Pacientes</h1>
+    <p>🌸 Dra. Rafaela Loiola 🌸</p>
 </header>
 
 <div class="container">
 
-<div class="tabs">
-<button class="tab-btn active" id="tP" onclick="changeTab('proximo')">A VENCER</button>
-<button class="tab-btn" id="tV" onclick="changeTab('vencidos')">VENCIDOS</button>
-</div>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="changeTab('proximo')">🍼 A VENCER</button>
+        <button class="tab-btn" onclick="changeTab('vencidos')">⚠️ VENCIDOS</button>
+    </div>
 
-<table>
-<thead>
-<tr><th>#</th><th>Paciente</th><th>Status</th><th>Obs</th></tr>
-</thead>
-<tbody id="tableBody"></tbody>
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Paciente</th>
+                <th>Status</th>
+                <th>Observações</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
 
 </div>
 
 <button class="btn-save" onclick="saveData()">SALVAR</button>
 
-<div class="container log-box">
-<h3>📄 Gerar LOG de Alterações</h3>
-<label>Data inicial:</label>
-<input type="date" id="logStart">
-<label>Data final:</label>
-<input type="date" id="logEnd">
-<br><br>
-<button class="tab-btn" onclick="exportLog()">📥 Gerar arquivo de LOG</button>
-</div>
-
 <script>
-let state={active:'proximo',proximo:[],vencidos:[]};
+    const STORAGE_KEY = "DraRafaela_Dados_Oficial";
 
-function changeTab(t){
- state.active=t;
- document.getElementById("tP").classList.toggle("active",t==="proximo");
- document.getElementById("tV").classList.toggle("active",t==="vencidos");
- render();
-}
+    let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+        active: "proximo",
+        proximo: [],
+        vencidos: []
+    };
 
-function render(){
- const b=document.getElementById("tableBody");
- b.innerHTML="";
- state[state.active].forEach((p,i)=>{
-  b.innerHTML+=`
-  <tr>
-   <td>${i+1}</td>
-   <td>${p.name}</td>
-   <td>
-    <select onchange="update(${i},this.value)">
-     <option ${p.status=="Pendente"?"selected":""}>Pendente</option>
-     <option ${p.status=="Agendado"?"selected":""}>Agendado</option>
-     <option ${p.status=="Recusou"?"selected":""}>Recusou</option>
-    </select>
-   </td>
-   <td><textarea onchange="updateObs(${i},this.value)">${p.obs||""}</textarea></td>
-  </tr>`;
- });
-}
+    function changeTab(tab) {
+        state.active = tab;
+        render();
+    }
 
-async function update(i,v){
- const item=state[state.active][i];
- if(item.status===v)return;
+    function render() {
+        const body = document.getElementById("tableBody");
+        body.innerHTML = "";
 
- await supabase.from("painel_logs").insert({
-  paciente:item.name,
-  status_anterior:item.status,
-  status_novo:v,
-  aba:state.active
- });
+        const list = state[state.active];
+        if (!list.length) {
+            body.innerHTML = `<tr><td colspan="4">Sem registros</td></tr>`;
+            return;
+        }
 
- item.status=v;
- autoSave();
-}
+        list.forEach((item, i) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${i + 1}</td>
+                <td>${item.name || ""}</td>
+                <td>
+                    <select onchange="update(${i}, this.value)">
+                        <option ${item.status === "Pendente" ? "selected" : ""}>Pendente</option>
+                        <option ${item.status === "Agendado" ? "selected" : ""}>Agendado</option>
+                        <option ${item.status === "Recusou" ? "selected" : ""}>Recusou</option>
+                    </select>
+                </td>
+                <td>
+                    <textarea onchange="item.obs=this.value">${item.obs || ""}</textarea>
+                </td>
+            `;
+            body.appendChild(tr);
+        });
+    }
 
-function updateObs(i,v){
- state[state.active][i].obs=v;
- autoSave();
-}
+    function update(i, v) {
+        state[state.active][i].status = v;
+        autoSave();
+    }
 
-async function autoSave(){
- await supabase.from("painel").upsert({id:1,data:state});
-}
+    function autoSave() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
 
-async function loadData(){
- const {data}=await supabase.from("painel").select("data").eq("id",1).single();
- if(data?.data)state=data.data;
- render();
-}
+    function saveData() {
+        autoSave();
+        alert("Dados salvos com sucesso!");
+    }
 
-async function exportLog(){
- const ini=document.getElementById("logStart").value;
- const fim=document.getElementById("logEnd").value;
-
- const {data}=await supabase
-  .from("painel_logs")
-  .select("*")
-  .gte("created_at",ini+"T00:00:00")
-  .lte("created_at",fim+"T23:59:59")
-  .order("created_at",{ascending:true});
-
- let txt="LOG DE ALTERAÇÕES\n\n";
- data.forEach(l=>{
-  txt+=`${new Date(l.created_at).toLocaleString()} | ${l.paciente} | ${l.status_anterior} → ${l.status_novo} | ${l.aba}\n`;
- });
-
- const blob=new Blob([txt],{type:"text/plain"});
- const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
- a.download="log_dashboard.txt";
- a.click();
-}
-
-function saveData(){
- autoSave();
- alert("Salvo na nuvem");
-}
-
-loadData();
+    render();
 </script>
 
 </body>
