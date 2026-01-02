@@ -42,10 +42,7 @@ const sb = supabase.createClient(
 --wa:#25d366;
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);margin:0}
-header{
-background:linear-gradient(135deg,#f3ccd6,#e6b7c3);
-padding:2.6rem 1rem;text-align:center
-}
+header{background:linear-gradient(135deg,#f3ccd6,#e6b7c3);padding:2.6rem 1rem;text-align:center}
 header h1{margin:0;font-size:2.5rem;font-family:'Quicksand'}
 header p{margin:10px 0 0;font-size:1.3rem;font-weight:800}
 
@@ -53,11 +50,7 @@ header p{margin:10px 0 0;font-size:1.3rem;font-weight:800}
 .counter{background:#ffffffaa;padding:12px 20px;border-radius:20px;font-weight:700}
 
 .tabs{display:flex;justify-content:center;gap:14px;margin:1.2rem}
-.tab-btn{
-padding:14px 40px;border-radius:35px;border:1px solid var(--border);
-background:#fff;font-weight:800;cursor:pointer;font-size:1rem;
-display:flex;align-items:center;gap:10px
-}
+.tab-btn{padding:14px 40px;border-radius:35px;border:1px solid var(--border);background:#fff;font-weight:800;cursor:pointer;font-size:1rem;display:flex;align-items:center;gap:10px}
 .tab-btn span{font-size:1.5rem}
 .tab-btn.active{background:var(--primary);color:#fff}
 
@@ -66,16 +59,13 @@ table{width:100%;border-collapse:collapse; min-width: 1000px;}
 th{background:#fbf1f4;padding:12px;font-size:.72rem;color:var(--accent); text-transform: uppercase}
 td{padding:10px;border-bottom:1px solid var(--border);text-align:center;font-size:.86rem}
 
-.w-seq{width:40px}.w-paciente{width:18%}.w-tel{width:180px}
-.w-data{width:95px}.w-idade{width:140px}.w-status{width:200px}.w-obs{width:auto}
+.w-seq{width:40px}
+.w-paciente{width:18%}
+.w-tel{width:180px}
 
 textarea,select{width:96%;border-radius:12px;border:1px solid var(--border);padding:8px;font-family: inherit}
 
-.wa-btn{
-display:inline-flex;align-items:center;gap:8px;
-background:#eef8f1;color:#1e8449;text-decoration:none;
-padding:8px 14px;border-radius:16px;font-weight:700
-}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;background:#eef8f1;color:#1e8449;text-decoration:none;padding:8px 14px;border-radius:16px;font-weight:700}
 .wa-btn:hover{background:var(--wa);color:#fff}
 
 .status-Agendado{background:var(--agendado)}
@@ -83,21 +73,11 @@ padding:8px 14px;border-radius:16px;font-weight:700
 .status-Recusou{background:var(--recusou)}
 
 .import-section{display:flex;gap:16px;justify-content:center;margin:45px auto 25px; flex-wrap: wrap}
-.import-box{
-background:#fff;padding:16px;border-radius:22px;border:2px dashed var(--primary);
-max-width:360px;flex:1;text-align:center
-}
-.btn-file{
-background:var(--accent);color:#fff;border:none;
-padding:12px;border-radius:18px;font-weight:800;cursor:pointer;width:100%
-}
+.import-box{background:#fff;padding:16px;border-radius:22px;border:2px dashed var(--primary);max-width:360px;flex:1;text-align:center}
+.btn-file{background:var(--accent);color:#fff;border:none;padding:12px;border-radius:18px;font-weight:800;cursor:pointer;width:100%}
 
 .log-box{margin:30px auto;background:#fff;padding:28px;border-radius:26px;max-width:650px;text-align:center; border: 1px solid var(--border)}
-.btn-save{
-position:fixed;bottom:26px;right:26px;background:var(--accent);color:#fff;
-border:none;padding:18px 38px;border-radius:50px;font-weight:800;cursor:pointer;
-box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100;
-}
+.btn-save{position:fixed;bottom:26px;right:26px;background:var(--accent);color:#fff;border:none;padding:18px 38px;border-radius:50px;font-weight:800;cursor:pointer;box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100;}
 .footer-spacer{height:150px}
 #syncStatus { font-size: 0.9rem; color: #b87486; margin-top: 8px; font-weight: 700; height: 20px; }
 </style>
@@ -106,60 +86,56 @@ box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100;
 <body>
 
 <header>
-<h1>🌸 Controle de Retornos de Pacientes 🌸</h1>
-<p>👩‍⚕️ Dra. Rafaela Loiola ✨</p>
-<div id="syncStatus">Carregando painel...</div>
-<div class="counters">
-<div class="counter">⏳ Pendentes: <span id="cPend">0</span></div>
-<div class="counter">✅ Agendados: <span id="cAgen">0</span></div>
-<div class="counter">🔁 Tentar: <span id="cTent">0</span></div>
-<div class="counter">❌ Recusou: <span id="cRec">0</span></div>
-</div>
+    <h1>🌸 Controle de Retornos de Pacientes 🌸</h1>
+    <p>👩‍⚕️ Dra. Rafaela Loiola ✨</p>
+    <div id="syncStatus">Carregando painel...</div>
+    <div class="counters">
+        <div class="counter">⏳ Pendentes: <span id="cPend">0</span></div>
+        <div class="counter">✅ Agendados: <span id="cAgen">0</span></div>
+        <div class="counter">🔁 Tentar: <span id="cTent">0</span></div>
+        <div class="counter">❌ Recusou: <span id="cRec">0</span></div>
+    </div>
 </header>
 
 <div class="tabs">
-<button class="tab-btn" id="tP" onclick="changeTab('proximo')"><span>🧸</span> A vencer</button>
-<button class="tab-btn" id="tV" onclick="changeTab('vencidos')"><span>🍂</span> Vencidos</button>
+    <button class="tab-btn" id="tP" onclick="changeTab('proximo')"><span>🧸</span> A vencer</button>
+    <button class="tab-btn" id="tV" onclick="changeTab('vencidos')"><span>🍂</span> Vencidos</button>
 </div>
 
 <div class="table-card">
-<table>
-<thead>
-<tr>
-<th class="w-seq">#</th>
-<th class="w-paciente">Paciente</th>
-<th class="w-tel">WhatsApp</th>
-<th class="w-data">Última</th>
-<th class="w-idade">Idade</th>
-<th id="dateLabel" class="w-data">Data</th>
-<th class="w-status">Status</th>
-<th class="w-obs">Observações</th>
-</tr>
-</thead>
-<tbody id="tableBody"></tbody>
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th class="w-seq">#</th>
+                <th class="w-paciente">Paciente</th>
+                <th class="w-tel">WhatsApp</th>
+                <th>Última</th>
+                <th>Idade</th>
+                <th id="dateLabel">Data</th>
+                <th>Status</th>
+                <th>Observações</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
 </div>
 
 <div class="import-section">
-<div class="import-box">
-<input type="file" id="fP" hidden onchange="importCSV('proximo',this)">
-<button class="btn-file" onclick="fP.click()">🍼 Importar lista A Vencer</button>
-</div>
-<div class="import-box">
-<input type="file" id="fV" hidden onchange="importCSV('vencidos',this)">
-<button class="btn-file" onclick="fV.click()">⚠️ Importar lista Vencida</button>
-</div>
+    <div class="import-box">
+        <input type="file" id="fP" hidden onchange="importCSV('proximo',this)">
+        <button class="btn-file" onclick="fP.click()">🍼 Importar lista A Vencer</button>
+    </div>
+    <div class="import-box">
+        <input type="file" id="fV" hidden onchange="importCSV('vencidos',this)">
+        <button class="btn-file" onclick="fV.click()">⚠️ Importar lista Vencida</button>
+    </div>
 </div>
 
 <div class="log-box">
-<h3>📜 Gerar Relatório de Atividades</h3>
-<div style="display:flex; gap:10px; justify-content:center; align-items:center">
-    <input type="date" id="logIni" style="padding:8px; border-radius:10px; border:1px solid var(--border)">
-    <span>até</span>
-    <input type="date" id="logFim" style="padding:8px; border-radius:10px; border:1px solid var(--border)">
-</div>
-<br>
-<button class="btn-file" onclick="gerarLog()" style="max-width:200px">💾 Baixar Log (.txt)</button>
+    <h3>📜 Gerar Relatório de Atividades</h3>
+    <input type="date" id="logIni"> até <input type="date" id="logFim">
+    <br><br>
+    <button class="btn-file" onclick="gerarLog()" style="max-width:200px">💾 Baixar Log (.txt)</button>
 </div>
 
 <div class="footer-spacer"></div>
@@ -168,52 +144,60 @@ box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100;
 <script>
 let state = { active: "proximo", proximo: [], vencidos: [] };
 
+// CORREÇÃO DA IDADE: "3,11" -> "3 anos e 11 meses"
+function formatAge(val) {
+    if (!val) return "";
+    let s = val.toString().replace(',', '.');
+    let n = parseFloat(s);
+    if (isNaN(n)) return val;
+
+    let anos = Math.floor(n);
+    // Pega os decimais. Ex: 0.11 de 3.11
+    let meses = Math.round((n - anos) * 100);
+
+    let txtAnos = anos > 0 ? `${anos} ${anos === 1 ? 'ano' : 'anos'}` : "";
+    let txtMeses = meses > 0 ? `${meses} ${meses === 1 ? 'mês' : 'meses'}` : "";
+
+    if (txtAnos && txtMeses) return `${txtAnos} e ${txtMeses}`;
+    return txtAnos || txtMeses || "0 meses";
+}
+
 async function loadFromCloud() {
     const statusEl = document.getElementById("syncStatus");
     statusEl.innerText = "🔄 Sincronizando dados...";
     try {
         const { data, error } = await sb.from("painel_dados").select("*").eq("id", 1).maybeSingle();
-        
         if (error) throw error;
-
         if (data && data.dados) {
             state = data.dados;
-            statusEl.innerText = "✅ Última atualização: " + new Date(data.updated_at).toLocaleTimeString();
+            statusEl.innerText = "✅ Atualizado: " + new Date(data.updated_at).toLocaleTimeString();
         } else {
-            statusEl.innerText = "🌸 Pronto para começar (Sem dados na nuvem)";
+            statusEl.innerText = "🌸 Sem dados na nuvem.";
         }
         render();
     } catch (e) {
-        statusEl.innerText = "❌ Erro ao carregar: " + e.message;
-        console.error(e);
+        statusEl.innerText = "❌ Erro ao carregar.";
     }
 }
 
 async function saveData() {
     const statusEl = document.getElementById("syncStatus");
     const btn = document.getElementById("btnSalvar");
-    
-    statusEl.innerText = "⏳ Enviando para a nuvem...";
+    statusEl.innerText = "⏳ Enviando...";
     btn.disabled = true;
 
     try {
-        // Força o ID 1 e o formato JSON correto
-        const payload = {
+        const { error } = await sb.from("painel_dados").upsert({
             id: 1,
             dados: state,
             updated_at: new Date().toISOString()
-        };
-
-        const { error } = await sb.from("painel_dados").upsert(payload, { onConflict: 'id' });
-
+        });
         if (error) throw error;
-
-        statusEl.innerText = "✅ Salvo com sucesso às " + new Date().toLocaleTimeString();
-        alert("✨ Dados sincronizados com sucesso!");
+        statusEl.innerText = "✅ Salvo com sucesso!";
+        alert("✨ Dados sincronizados!");
     } catch (e) {
-        statusEl.innerText = "❌ ERRO AO SALVAR";
-        alert("Erro técnico: " + e.message + "\nVerifique se a tabela 'painel_dados' tem a coluna 'id' como Primary Key.");
-        console.error(e);
+        statusEl.innerText = "❌ Erro de RLS ou Conexão";
+        alert("Erro ao salvar: " + e.message);
     } finally {
         btn.disabled = false;
     }
@@ -231,8 +215,7 @@ async function updateStatus(index, newStatus) {
             status_novo: newStatus,
             aba: state.active
         }]);
-    } catch(e) { console.error("Erro log:", e); }
-
+    } catch(e) {}
     render();
 }
 
@@ -248,27 +231,19 @@ function render(){
     document.getElementById("cTent").textContent = all.filter(i => i.status === "Tentar Novamente").length;
     document.getElementById("cRec").textContent = all.filter(i => i.status === "Recusou").length;
 
-    if(!list.length){
-        body.innerHTML = "<tr><td colspan='8' style='padding:40px;color:#aaa'>Nenhum paciente nesta lista 🌸</td></tr>";
-        return;
-    }
-
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
         const tr = document.createElement("tr");
         tr.className = `status-${it.status.replace(/\s/g, '\\ ')}`;
         tr.innerHTML = `
             <td>${i+1}</td>
-            <td><strong>${it.name}</strong></td>
+            <td style="text-align:left"><strong>${it.name}</strong></td>
             <td>
-                <a class="wa-btn" target="_blank" href="https://wa.me/55${waClean}">
-                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" width="14" style="filter:invert(42%) sepia(50%) saturate(400%) hue-rotate(110deg) brightness(95%) contrast(90%)">
-                    WhatsApp
-                </a>
+                <a class="wa-btn" target="_blank" href="https://wa.me/55${waClean}">WhatsApp</a>
                 <div style="font-size:10px; margin-top:4px">${it.tel}</div>
             </td>
             <td>${it.last}</td>
-            <td>${it.age}</td>
+            <td>${formatAge(it.age)}</td>
             <td>${it.due}</td>
             <td>
                 <select onchange="updateStatus(${i}, this.value)">
@@ -303,7 +278,7 @@ function importCSV(type, input){
             return { name: c[0], tel: c[1], last: c[2]||"", age: c[3]||"", due: c[4]||"", status: "Pendente", obs: "" };
         }).filter(x => x && x.name);
         render();
-        alert("Importado! Clique em 'Salvar na Nuvem' para gravar definitivamente.");
+        alert("Importado! Clique em 'Salvar na Nuvem'.");
     });
 }
 
@@ -312,19 +287,17 @@ async function gerarLog(){
     const {data, error} = await sb.from("painel_logs")
         .select("*")
         .gte("data_hora", logIni.value+"T00:00:00")
-        .lte("data_hora", logFim.value+"T23:59:59")
-        .order("data_hora", {ascending:true});
+        .lte("data_hora", logFim.value+"T23:59:59");
         
     if(error || !data || data.length === 0) { alert("Nenhum log encontrado."); return; }
-
-    let txt = "LOG DE ATIVIDADES - DRA RAFAELA LOIOLA\n\n";
+    let txt = "LOG DE ATIVIDADES\n\n";
     data.forEach(l => {
-        txt += `${new Date(l.data_hora).toLocaleString()} | ${l.paciente} | ${l.status_anterior} -> ${l.status_novo} | ${l.aba}\n`;
+        txt += `${new Date(l.data_hora).toLocaleString()} | ${l.paciente} | ${l.status_anterior} -> ${l.status_novo}\n`;
     });
     const blob = new Blob([txt], {type:"text/plain"});
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `log_retornos.txt`;
+    a.download = `log_rafaela.txt`;
     a.click();
 }
 
