@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Controle de Retornos | Dra. Rafaela Loiola</title>
 
-<!-- ===== PROTEÇÃO POR SENHA (ÚNICA E DEFINITIVA) ===== -->
+<!-- ===== PROTEÇÃO POR SENHA ===== -->
 <style>
 html { display: none !important; }
 </style>
@@ -29,7 +29,7 @@ html { display: none !important; }
 <!-- ===== SUPABASE ===== -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabase = supabase.createClient(
+const sb = supabase.createClient(
     "https://kavfloijxglfzlwgvtmd.supabase.co",
     "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
 );
@@ -190,8 +190,8 @@ select, textarea {
 </div>
 
 <div class="tabs">
-    <button class="tab-btn active" id="tP" onclick="changeTab('proximo')">A Vencer</button>
-    <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">Vencidos</button>
+    <button class="tab-btn" id="tP" onclick="changeTab('proximo')">PRÓXIMOS</button>
+    <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">VENCIDOS</button>
 </div>
 
 <div class="table-card">
@@ -223,7 +223,9 @@ select, textarea {
 const STORAGE_KEY="DraRafaela_Dados_Oficial";
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-    active:"proximo", proximo:[], vencidos:[]
+    active:"proximo",
+    proximo:[],
+    vencidos:[]
 };
 
 function changeTab(t){
@@ -241,7 +243,8 @@ function importCSV(type,input){
             const c=r.split(";");
             return {name:c[0]||"",status:"Pendente",obs:""};
         }).filter(x=>x.name);
-        autoSave(); render();
+        autoSave();
+        changeTab(type);
     });
 }
 
@@ -251,7 +254,7 @@ async function update(i,v){
     if(old===v)return;
     item.status=v;
 
-    await supabase.from("painel_logs").insert({
+    await sb.from("painel_logs").insert({
         paciente:item.name,
         status_anterior:old,
         status_novo:v,
@@ -266,7 +269,8 @@ function render(){
     body.innerHTML="";
     const list=state[state.active];
     if(!list.length){
-        body.innerHTML="<tr><td colspan='4'>Sem dados</td></tr>";return;
+        body.innerHTML="<tr><td colspan='4'>Sem dados</td></tr>";
+        return;
     }
     list.forEach((it,i)=>{
         body.innerHTML+=`
@@ -275,5 +279,49 @@ function render(){
         <td>${it.name}</td>
         <td>
         <select onchange="update(${i},this.value)">
-        <option ${it.status==="Pendente"?"selected":""}>Pendente</option>
-        <option ${it.stat
+            <option ${it.status==="Pendente"?"selected":""}>Pendente</option>
+            <option ${it.status==="Agendado"?"selected":""}>Agendado</option>
+            <option ${it.status==="Recusou"?"selected":""}>Recusou</option>
+        </select>
+        </td>
+        <td><textarea onchange="it.obs=this.value">${it.obs||""}</textarea></td>
+        </tr>`;
+    });
+}
+
+function autoSave(){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+}
+
+function saveData(){
+    autoSave();
+    alert("Dados salvos");
+}
+
+async function gerarLog(){
+    const ini=logIni.value, fim=logFim.value;
+    const {data}=await sb
+        .from("painel_logs")
+        .select("*")
+        .gte("created_at",ini+"T00:00")
+        .lte("created_at",fim+"T23:59")
+        .order("created_at",{ascending:true});
+
+    let txt="LOG DE ALTERAÇÕES\n\n";
+    data.forEach(l=>{
+        txt+=`${l.created_at} | ${l.paciente} | ${l.status_anterior} → ${l.status_novo} | ${l.aba}\n`;
+    });
+
+    const blob=new Blob([txt],{type:"text/plain"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="log.txt";
+    a.click();
+}
+
+/* NORMALIZAÇÃO INICIAL DEFINITIVA */
+changeTab(state.active);
+</script>
+
+</body>
+</html>
