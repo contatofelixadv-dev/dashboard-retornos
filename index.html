@@ -1,119 +1,135 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Controle de Retornos | Dra. Rafaela Loiola</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Retornos | Dra. Rafaela Loiola</title>
 
-<!-- PROTEÇÃO DE SENHA -->
-<style>body{display:none!important}</style>
-<script>
-(function(){
- const senha="rafaloiola2026";
- if(prompt("✨ Digite a senha para acessar ✨")!==senha){
-  document.open();document.write("");document.close();return;
- }
- document.addEventListener("DOMContentLoaded",()=>document.body.style.display="block");
-})();
-</script>
+    <style>
+        body { display: none; } /* Esconde o corpo inicialmente */
+    </style>
+    
+    <script>
+    (function(){
+        const senhaCorreta = "rafaloiola2026";
+        const entrada = prompt("✨ Digite a senha para acessar ✨");
+        
+        if(entrada !== senhaCorreta){
+            alert("Senha incorreta!");
+            window.stop(); // Para o carregamento
+            document.documentElement.innerHTML = ""; // Limpa a tela
+            return;
+        }
+        // Se a senha estiver correta, mostra o corpo após o carregamento
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.style.display = "block";
+        });
+    })();
+    </script>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-const sb = supabase.createClient(
- "https://kavfloijxglfzlwgvtmd.supabase.co",
- "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
-);
-</script>
+    <script>
+    const sb = supabase.createClient(
+        "https://kavfloijxglfzlwgvtmd.supabase.co",
+        "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
+    );
+    </script>
 
-<style>
-:root{
- --primary:#e8b6c3;
- --accent:#b87586;
- --bg:#fffafa;
- --text:#4a3a3d;
- --border:#f1d6dc;
- --pending:transparent;
- --ok:#d9efe5;
- --retry:#f6ecd9;
- --no:#f3d6d9;
-}
-body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);margin:0}
-header{
- background:linear-gradient(135deg,#f3ccd6,#e8b6c3);
- text-align:center;padding:1.5rem;color:#7a3d4b
-}
-header h1{font-family:Quicksand;font-size:2rem;margin:0}
-header p{margin:.4rem 0 0;font-weight:700;font-size:1.1rem}
-.counter{margin-top:.6rem;font-weight:700}
-.container{max-width:98%;margin:1rem auto}
-.tabs{display:flex;justify-content:center;gap:12px}
-.tab-btn{
- padding:12px 35px;border-radius:30px;border:1px solid var(--border);
- background:white;font-weight:700;cursor:pointer;font-size:1rem
-}
-.tab-btn.active{background:var(--primary);color:white}
-.table-card{background:white;border-radius:20px;overflow:hidden}
-table{width:100%;border-collapse:collapse}
-th{background:#fcf0f2;padding:14px;font-size:.75rem}
-td{padding:10px;text-align:center}
-.w-seq{width:40px}
-.w-paciente{width:20%}
-.w-tel{width:220px}
-.w-status{width:180px}
-.w-obs{width:auto}
-.wa-btn{
- display:inline-flex;align-items:center;gap:6px;
- background:#e9f7ef;padding:6px 12px;border-radius:12px;
- font-weight:700;color:#1e8449;text-decoration:none
-}
-.status-Pendente{background:var(--pending)}
-.status-Agendado{background:var(--ok)}
-.status-Tentar\ Novamente{background:var(--retry)}
-.status-Recusou{background:var(--no)}
-.btn-save{
- position:fixed;bottom:30px;right:30px;
- background:var(--accent);color:white;border:none;
- padding:15px 35px;border-radius:50px;font-weight:700;cursor:pointer
-}
-.footer-spacer{height:150px}
-</style>
+    <style>
+        :root{
+            --primary:#e8b6c3;
+            --accent:#b87586;
+            --bg:#fffafa;
+            --text:#4a3a3d;
+            --border:#f1d6dc;
+            --pending:transparent;
+            --ok:#d9efe5;
+            --retry:#f6ecd9;
+            --no:#f3d6d9;
+        }
+        body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);margin:0}
+        header{
+            background:linear-gradient(135deg,#f3ccd6,#e8b6c3);
+            text-align:center;padding:1.5rem;color:#7a3d4b
+        }
+        header h1{font-family:Quicksand;font-size:2rem;margin:0}
+        header p{margin:.4rem 0 0;font-weight:700;font-size:1.1rem}
+        .counter{margin-top:.6rem;font-weight:700}
+        .container{max-width:98%;margin:1rem auto}
+        .tabs{display:flex;justify-content:center;gap:12px;margin-bottom: 20px;}
+        .tab-btn{
+            padding:12px 35px;border-radius:30px;border:1px solid var(--border);
+            background:white;font-weight:700;cursor:pointer;font-size:1rem
+        }
+        .tab-btn.active{background:var(--primary);color:white}
+        .table-card{background:white;border-radius:20px;overflow-x:auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
+        table{width:100%;border-collapse:collapse; min-width: 800px;}
+        th{background:#fcf0f2;padding:14px;font-size:.75rem; text-transform: uppercase; color: #a37a85;}
+        td{padding:10px;text-align:center; border-bottom: 1px solid #f9f0f2;}
+        .w-seq{width:40px}
+        .w-paciente{width:20%}
+        .w-tel{width:220px}
+        .w-status{width:180px}
+        .wa-btn{
+            display:inline-flex;align-items:center;gap:6px;
+            background:#e9f7ef;padding:6px 12px;border-radius:12px;
+            font-weight:700;color:#1e8449;text-decoration:none; font-size: 0.9rem;
+        }
+        .status-Pendente{background:var(--pending)}
+        .status-Agendado{background:var(--ok)}
+        .status-Tentar\ Novamente{background:var(--retry)}
+        .status-Recusou{background:var(--no)}
+        
+        textarea {
+            width: 90%; border: 1px solid var(--border); border-radius: 8px; padding: 5px; font-family: inherit;
+        }
+
+        .btn-save{
+            position:fixed;bottom:30px;right:30px;
+            background:var(--accent);color:white;border:none;
+            padding:15px 35px;border-radius:50px;font-weight:700;cursor:pointer;
+            box-shadow: 0 4px 15px rgba(184, 117, 134, 0.4);
+            z-index: 100;
+        }
+        .footer-spacer{height:100px}
+    </style>
 </head>
 
 <body>
 
 <header>
- <h1>Controle de Retornos</h1>
- <p>🌸 Dra. Rafaela Loiola 🌸</p>
- <div class="counter" id="contador">Total: 0 pacientes</div>
+    <h1>Controle de Retornos</h1>
+    <p>🌸 Dra. Rafaela Loiola 🌸</p>
+    <div class="counter" id="contador">Carregando pacientes...</div>
 </header>
 
 <div class="container">
+    <div class="tabs">
+        <button class="tab-btn active" id="tP" onclick="changeTab('proximo')">🍼 A Vencer</button>
+        <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">⚠️ Vencidos</button>
+    </div>
 
-<div class="tabs">
- <button class="tab-btn active" id="tP" onclick="changeTab('proximo')">🍼 A Vencer</button>
- <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">⚠️ Vencidos</button>
-</div>
-
-<div class="table-card">
-<table>
-<thead>
-<tr>
- <th class="w-seq">#</th>
- <th class="w-paciente">Paciente</th>
- <th class="w-tel">Telefone / WhatsApp</th>
- <th>Última Consulta</th>
- <th>Idade</th>
- <th id="dateLabel">Vencimento</th>
- <th class="w-status">Status</th>
- <th class="w-obs">Observações</th>
-</tr>
-</thead>
-<tbody id="tableBody"></tbody>
-</table>
-</div>
-
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th class="w-seq">#</th>
+                    <th class="w-paciente">Paciente</th>
+                    <th class="w-tel">Telefone / WhatsApp</th>
+                    <th>Última Consulta</th>
+                    <th>Idade</th>
+                    <th id="dateLabel">Vencimento</th>
+                    <th class="w-status">Status</th>
+                    <th class="w-obs">Observações</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td colspan="8" style="padding:40px;color:#aaa">Carregando dados...</td></tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="footer-spacer"></div>
@@ -121,91 +137,119 @@ td{padding:10px;text-align:center}
 <button class="btn-save" onclick="salvarDados()">💖 Salvar Tudo</button>
 
 <script>
-let state={active:"proximo",proximo:[],vencidos:[]};
+// Estado inicial robusto
+let state = {
+    active: "proximo",
+    proximo: [],
+    vencidos: []
+};
 
 /* ====== SUPABASE ====== */
 async function carregarDados(){
- const {data}=await sb.from("painel_dados").select("dados").eq("id",1).single();
- if(data?.dados){ state=data.dados; }
- state.active="proximo"; // CORREÇÃO ABA INICIAL
- render();
+    try {
+        const { data, error } = await sb.from("painel_dados").select("dados").eq("id", 1).single();
+        
+        if (error) {
+            console.warn("Aviso: Banco de dados pode estar vazio ou erro na conexão", error);
+        }
+
+        if (data && data.dados) { 
+            state = data.dados; 
+        }
+        
+        state.active = "proximo"; 
+        render();
+    } catch (err) {
+        console.error("Erro crítico ao carregar:", err);
+        render(); // Renderiza mesmo com erro para mostrar estado vazio
+    }
 }
 
 async function salvarDados(){
- await sb.from("painel_dados").upsert({
-  id:1,
-  dados:state,
-  updated_at:new Date().toISOString()
- });
- alert("✨ Tudo salvo na nuvem!");
+    try {
+        const { error } = await sb.from("painel_dados").upsert({
+            id: 1,
+            dados: state,
+            updated_at: new Date().toISOString()
+        });
+
+        if (error) throw error;
+        alert("✨ Tudo salvo na nuvem!");
+    } catch (err) {
+        alert("Erro ao salvar! Verifique sua conexão.");
+        console.error(err);
+    }
 }
 
 /* ====== UTIL ====== */
 function formatAge(v){
- if(!v)return"";
- const p=v.split(",");
- if(p.length===2)return`${p[0]} ano(s) e ${p[1]} mes(es)`;
- return v;
+    if(!v) return "";
+    const p = v.toString().split(",");
+    if(p.length === 2) return `${p[0]} ano(s) e ${p[1]} mes(es)`;
+    return v;
 }
 
 /* ====== UI ====== */
 function changeTab(t){
- state.active=t;
- document.getElementById("tP").classList.toggle("active",t==="proximo");
- document.getElementById("tV").classList.toggle("active",t==="vencidos");
- render();
+    state.active = t;
+    document.getElementById("tP").classList.toggle("active", t === "proximo");
+    document.getElementById("tV").classList.toggle("active", t === "vencidos");
+    render();
 }
 
-function updateRow(i,f,v){
- state[state.active][i][f]=v;
- render();
+function updateRow(index, field, value){
+    state[state.active][index][field] = value;
+    // Não chamamos render() aqui para evitar que o teclado perca o foco no celular
 }
 
 function render(){
- const list=state[state.active];
- document.getElementById("dateLabel").innerText=
-  state.active==="proximo"?"DEVE VIR EM":"VENCEU EM";
+    const list = state[state.active] || [];
+    const dateLabel = document.getElementById("dateLabel");
+    if(dateLabel) dateLabel.innerText = state.active === "proximo" ? "DEVE VIR EM" : "VENCEU EM";
 
- const total=state.proximo.length+state.vencidos.length;
- document.getElementById("contador").innerText=`Total: ${total} pacientes`;
+    const total = (state.proximo ? state.proximo.length : 0) + (state.vencidos ? state.vencidos.length : 0);
+    document.getElementById("contador").innerText = `Total: ${total} pacientes`;
 
- const body=document.getElementById("tableBody");
- body.innerHTML="";
- if(!list.length){
-  body.innerHTML=`<tr><td colspan="8" style="padding:40px;color:#aaa">
-  Aguardando com carinho 🌸</td></tr>`;
-  return;
- }
+    const body = document.getElementById("tableBody");
+    body.innerHTML = "";
 
- list.forEach((it,i)=>{
-  const tr=document.createElement("tr");
-  tr.className=`status-${it.status}`;
-  tr.innerHTML=`
-<td>${i+1}</td>
-<td style="text-align:left;font-weight:700">${it.name}</td>
-<td>
- <a class="wa-btn" target="_blank"
- href="https://wa.me/55${it.tel.replace(/\D/g,'')}">
- <small>💬</small> ${it.tel}
- </a>
-</td>
-<td>${it.last}</td>
-<td>${formatAge(it.age)}</td>
-<td>${it.due}</td>
-<td>
-<select onchange="updateRow(${i},'status',this.value)">
-<option ${it.status==="Pendente"?"selected":""}>Pendente</option>
-<option ${it.status==="Agendado"?"selected":""}>Agendado</option>
-<option ${it.status==="Tentar Novamente"?"selected":""}>Tentar Novamente</option>
-<option ${it.status==="Recusou"?"selected":""}>Recusou</option>
-</select>
-</td>
-<td><textarea onchange="updateRow(${i},'obs',this.value)">${it.obs||""}</textarea></td>`;
-  body.appendChild(tr);
- });
+    if(!list.length){
+        body.innerHTML = `<tr><td colspan="8" style="padding:40px;color:#aaa">
+        Aguardando com carinho 🌸</td></tr>`;
+        return;
+    }
+
+    list.forEach((it, i) => {
+        const tr = document.createElement("tr");
+        tr.className = `status-${it.status?.replace(/\s/g, '\\ ')}`;
+        
+        tr.innerHTML = `
+            <td>${i+1}</td>
+            <td style="text-align:left;font-weight:700">${it.name || 'Sem nome'}</td>
+            <td>
+                <a class="wa-btn" target="_blank" href="https://wa.me/55${it.tel ? it.tel.replace(/\D/g,'') : ''}">
+                    <small>💬</small> ${it.tel || 'Sem tel'}
+                </a>
+            </td>
+            <td>${it.last || '-'}</td>
+            <td>${formatAge(it.age)}</td>
+            <td>${it.due || '-'}</td>
+            <td>
+                <select onchange="updateRow(${i},'status',this.value); this.parentElement.parentElement.className='status-'+this.value.replace(/ /g, '\\ ')">
+                    <option ${it.status==="Pendente"?"selected":""}>Pendente</option>
+                    <option ${it.status==="Agendado"?"selected":""}>Agendado</option>
+                    <option ${it.status==="Tentar Novamente"?"selected":""}>Tentar Novamente</option>
+                    <option ${it.status==="Recusou"?"selected":""}>Recusou</option>
+                </select>
+            </td>
+            <td><textarea onchange="updateRow(${i},'obs',this.value)">${it.obs||""}</textarea></td>
+        `;
+        body.appendChild(tr);
+    });
 }
 
-window.addEventListener("load",carregarDados);
+// Inicialização
+window.addEventListener("load", carregarDados);
 </script>
 
 </body>
