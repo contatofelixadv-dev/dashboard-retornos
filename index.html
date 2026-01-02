@@ -35,65 +35,117 @@ const sb=supabase.createClient(
 </script>
 
 <style>
-body{font-family:'Inter',sans-serif;background:#fdf8f9;color:#4a3a3d;margin:0}
+/* PALETA MAIS SUAVE */
 :root{
---primary:#d48e9b;
---accent:#9c5d6a;
---border:#eecad0;
+--bg:#fdfafb;
+--card:#ffffff;
+--primary:#e8b6c2;
+--accent:#b87486;
+--border:#f1d6dd;
+--text:#4a3a3d;
+
+--pendente:transparent;
+--agendado:#e6f2ec;
+--tentar:#f5efe6;
+--recusou:#f3e1e1;
+
 --wa:#25d366;
---pendente:#f9e79f;
---agendado:#d5f5e3;
---tentar:#fdebd0;
---recusou:#f5b7b1;
 }
+
+body{
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--text);
+margin:0
+}
+
 header{
-background:linear-gradient(135deg,#e4aab5,#d48e9b);
-color:#fff;padding:2.4rem 1rem;text-align:center
+background:linear-gradient(135deg,#f3ccd6,#e6b7c3);
+color:#5a2f3a;
+padding:2.6rem 1rem;
+text-align:center
 }
 header h1{
 margin:0;
 font-family:'Quicksand',sans-serif;
-font-size:2.4rem;
+font-size:2.5rem;
 letter-spacing:1px
 }
 header p{
-margin:8px 0 0;
-font-size:1.25rem;
+margin:10px 0 0;
+font-size:1.3rem;
 font-weight:800
 }
+
 .counters{
-display:flex;justify-content:center;gap:18px;
-margin-top:18px;flex-wrap:wrap
+display:flex;
+justify-content:center;
+gap:18px;
+margin-top:22px;
+flex-wrap:wrap
 }
 .counter{
-background:rgba(255,255,255,.2);
-padding:10px 18px;border-radius:18px;
-font-weight:700
+background:rgba(255,255,255,.65);
+padding:12px 20px;
+border-radius:20px;
+font-weight:700;
+box-shadow:0 2px 8px rgba(0,0,0,.04)
 }
 
-.container{max-width:98%;margin:1rem auto}
+.container{max-width:98%;margin:1.2rem auto}
 
-.tabs{display:flex;justify-content:center;gap:10px;margin-bottom:1rem}
+.tabs{
+display:flex;
+justify-content:center;
+gap:14px;
+margin-bottom:1.2rem
+}
 .tab-btn{
-padding:12px 32px;border-radius:30px;
-border:1px solid var(--border);background:#fff;
-font-weight:700;cursor:pointer
+padding:14px 40px;
+border-radius:35px;
+border:1px solid var(--border);
+background:var(--card);
+font-weight:800;
+cursor:pointer;
+font-size:1rem;
+display:flex;
+align-items:center;
+gap:10px
 }
-.tab-btn.active{background:var(--primary);color:#fff}
+.tab-btn span{
+font-size:1.4rem
+}
+.tab-btn.active{
+background:var(--primary);
+color:#fff;
+border-color:var(--primary)
+}
 
 .table-card{
-background:#fff;border-radius:22px;overflow:hidden;
-box-shadow:0 4px 20px rgba(0,0,0,.05)
+background:var(--card);
+border-radius:24px;
+overflow:hidden;
+box-shadow:0 6px 22px rgba(0,0,0,.05)
 }
-table{width:100%;border-collapse:collapse;table-layout:fixed}
+
+table{
+width:100%;
+border-collapse:collapse;
+table-layout:fixed
+}
 th{
-background:#fcf0f2;padding:12px 6px;
-font-size:.72rem;text-transform:uppercase;
+background:#fbf1f4;
+padding:12px 6px;
+font-size:.72rem;
+text-transform:uppercase;
 color:var(--accent)
 }
 td{
-padding:10px 6px;border-bottom:1px solid #f2dfe3;
-text-align:center;font-size:.85rem;vertical-align:middle
+padding:10px 6px;
+border-bottom:1px solid var(--border);
+text-align:center;
+font-size:.86rem;
+vertical-align:middle
 }
 
 .w-seq{width:32px}
@@ -101,20 +153,28 @@ text-align:center;font-size:.85rem;vertical-align:middle
 .w-tel{width:180px}
 .w-data{width:95px}
 .w-idade{width:140px}
-.w-status{width:190px}
+.w-status{width:200px}
 .w-obs{width:auto}
 
 textarea,select{
-width:96%;border-radius:10px;
+width:96%;
+border-radius:12px;
 border:1px solid var(--border);
-padding:7px;font-family:inherit
+padding:8px;
+font-family:inherit;
+background:#fff
 }
 
 .wa-btn{
-display:inline-flex;align-items:center;gap:6px;
-background:#e9f7ef;color:#1e8449;
-text-decoration:none;padding:7px 12px;
-border-radius:14px;font-weight:700
+display:inline-flex;
+align-items:center;
+gap:8px;
+background:#eef8f1;
+color:#1e8449;
+text-decoration:none;
+padding:8px 14px;
+border-radius:16px;
+font-weight:700
 }
 .wa-btn:hover{background:var(--wa);color:#fff}
 
@@ -124,36 +184,56 @@ border-radius:14px;font-weight:700
 .status-Recusou{background:var(--recusou)}
 
 .import-section{
-display:flex;gap:15px;justify-content:center;
-margin:40px auto 20px
+display:flex;
+gap:16px;
+justify-content:center;
+margin:45px auto 25px
 }
 .import-box{
-background:#fff;padding:14px;border-radius:18px;
-border:2px dashed var(--primary);flex:1;
-max-width:350px;text-align:center
+background:var(--card);
+padding:16px;
+border-radius:22px;
+border:2px dashed var(--primary);
+flex:1;
+max-width:360px;
+text-align:center
 }
 .btn-file{
-background:var(--accent);color:#fff;border:none;
-padding:10px;border-radius:14px;
-font-weight:700;cursor:pointer;width:100%
+background:var(--accent);
+color:#fff;
+border:none;
+padding:12px;
+border-radius:18px;
+font-weight:800;
+cursor:pointer;
+width:100%
 }
 .btn-file:hover{background:var(--primary)}
 
 .log-box{
-margin:30px auto;background:#fff;
-padding:25px;border-radius:24px;
-max-width:620px;text-align:center
+margin:30px auto;
+background:var(--card);
+padding:28px;
+border-radius:26px;
+max-width:650px;
+text-align:center
 }
 
 .btn-save{
-position:fixed;bottom:26px;right:26px;
-background:var(--accent);color:#fff;
-border:none;padding:16px 34px;
-border-radius:50px;font-weight:700;
-cursor:pointer;box-shadow:0 8px 20px rgba(156,93,106,.3)
+position:fixed;
+bottom:26px;
+right:26px;
+background:var(--accent);
+color:#fff;
+border:none;
+padding:18px 38px;
+border-radius:50px;
+font-weight:800;
+cursor:pointer;
+box-shadow:0 10px 24px rgba(184,116,134,.35)
 }
 
-.footer-spacer{height:140px}
+.footer-spacer{height:150px}
 </style>
 </head>
 
@@ -173,8 +253,8 @@ cursor:pointer;box-shadow:0 8px 20px rgba(156,93,106,.3)
 <div class="container">
 
 <div class="tabs">
- <button class="tab-btn" id="tP" onclick="changeTab('proximo')">🧸 A vencer</button>
- <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">🍂 Vencidos</button>
+ <button class="tab-btn" id="tP" onclick="changeTab('proximo')"><span>🧸</span> A vencer</button>
+ <button class="tab-btn" id="tV" onclick="changeTab('vencidos')"><span>🍂</span> Vencidos</button>
 </div>
 
 <div class="table-card">
@@ -195,7 +275,6 @@ cursor:pointer;box-shadow:0 8px 20px rgba(156,93,106,.3)
 </table>
 </div>
 
-<!-- IMPORTAÇÃO MOVIDA PARA O FINAL -->
 <div class="import-section">
  <div class="import-box">
   <input type="file" id="fP" hidden onchange="importCSV('proximo',this)">
@@ -208,7 +287,7 @@ cursor:pointer;box-shadow:0 8px 20px rgba(156,93,106,.3)
 </div>
 
 <div class="log-box">
-<h3>📜 Histórico fofinho de alterações</h3>
+<h3>📜 Histórico de alterações</h3>
 <p>Selecione um período para gerar o arquivo ✨</p>
 <input type="date" id="logIni">
 <input type="date" id="logFim"><br><br>
@@ -257,7 +336,8 @@ async function update(i,v){
  await sb.from("painel_logs").insert({
   paciente:it.name,status_anterior:old,status_novo:v,aba:state.active
  });
- autoSave();render();
+ autoSave();
+ render();
 }
 
 function render(){
@@ -267,19 +347,20 @@ function render(){
   state.active==="proximo"?"Deve retornar em":"Venceu em";
  body.innerHTML="";
 
- let cP=0,cA=0,cT=0,cR=0;
+ let all=[...state.proximo,...state.vencidos];
+ cPend.textContent=all.filter(i=>i.status==="Pendente").length;
+ cAgen.textContent=all.filter(i=>i.status==="Agendado").length;
+ cTent.textContent=all.filter(i=>i.status==="Tentar Novamente").length;
+ cRec.textContent=all.filter(i=>i.status==="Recusou").length;
 
  if(!list.length){
   body.innerHTML="<tr><td colspan='8' style='padding:50px;color:#aaa'>Aguardando com carinho 💕</td></tr>";
- } else {
-  list.forEach((it,i)=>{
-   if(it.status==="Pendente")cP++;
-   if(it.status==="Agendado")cA++;
-   if(it.status==="Tentar Novamente")cT++;
-   if(it.status==="Recusou")cR++;
+  return;
+ }
 
-   const wa=`https://wa.me/55${it.tel.replace(/\D/g,"")}`;
-   body.innerHTML+=`
+ list.forEach((it,i)=>{
+  const wa=`https://wa.me/55${it.tel.replace(/\D/g,"")}`;
+  body.innerHTML+=`
 <tr class="status-${it.status}">
 <td>${i+1}</td>
 <td style="font-weight:700;color:var(--accent)">${it.name}</td>
@@ -301,13 +382,7 @@ function render(){
 </td>
 <td><textarea onchange="it.obs=this.value">${it.obs||""}</textarea></td>
 </tr>`;
-  });
- }
-
- cPend.textContent=cP;
- cAgen.textContent=cA;
- cTent.textContent=cT;
- cRec.textContent=cR;
+ });
 }
 
 function autoSave(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
@@ -325,7 +400,9 @@ async function gerarLog(){
  });
  const blob=new Blob([txt],{type:"text/plain"});
  const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);a.download="log.txt";a.click();
+ a.href=URL.createObjectURL(blob);
+ a.download="log.txt";
+ a.click();
 }
 
 changeTab(state.active);
