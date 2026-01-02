@@ -65,7 +65,7 @@ td{padding:10px;border-bottom:1px solid var(--border);text-align:center;font-siz
 
 textarea,select{width:96%;border-radius:12px;border:1px solid var(--border);padding:8px;font-family: inherit}
 
-.wa-btn{display:inline-flex;align-items:center;gap:8px;background:#eef8f1;color:#1e8449;text-decoration:none;padding:8px 14px;border-radius:16px;font-weight:700}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;background:#eef8f1;color:#1e8449;text-decoration:none;padding:8px 14px;border-radius:16px;font-weight:700;transition: 0.3s;}
 .wa-btn:hover{background:var(--wa);color:#fff}
 
 .status-Agendado{background:var(--agendado)}
@@ -88,7 +88,7 @@ textarea,select{width:96%;border-radius:12px;border:1px solid var(--border);padd
 <header>
     <h1>🌸 Controle de Retornos de Pacientes 🌸</h1>
     <p>👩‍⚕️ Dra. Rafaela Loiola ✨</p>
-    <div id="syncStatus">Carregando painel...</div>
+    <div id="syncStatus">Sincronizando...</div>
     <div class="counters">
         <div class="counter">⏳ Pendentes: <span id="cPend">0</span></div>
         <div class="counter">✅ Agendados: <span id="cAgen">0</span></div>
@@ -144,20 +144,15 @@ textarea,select{width:96%;border-radius:12px;border:1px solid var(--border);padd
 <script>
 let state = { active: "proximo", proximo: [], vencidos: [] };
 
-// CORREÇÃO DA IDADE: "3,11" -> "3 anos e 11 meses"
 function formatAge(val) {
     if (!val) return "";
     let s = val.toString().replace(',', '.');
     let n = parseFloat(s);
     if (isNaN(n)) return val;
-
     let anos = Math.floor(n);
-    // Pega os decimais. Ex: 0.11 de 3.11
     let meses = Math.round((n - anos) * 100);
-
     let txtAnos = anos > 0 ? `${anos} ${anos === 1 ? 'ano' : 'anos'}` : "";
     let txtMeses = meses > 0 ? `${meses} ${meses === 1 ? 'mês' : 'meses'}` : "";
-
     if (txtAnos && txtMeses) return `${txtAnos} e ${txtMeses}`;
     return txtAnos || txtMeses || "0 meses";
 }
@@ -207,7 +202,6 @@ async function updateStatus(index, newStatus) {
     const item = state[state.active][index];
     const oldStatus = item.status;
     item.status = newStatus;
-
     try {
         await sb.from("painel_logs").insert([{
             paciente: item.name,
@@ -233,13 +227,27 @@ function render(){
 
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
+        
+        // GERADOR DE MENSAGEM AUTOMÁTICA
+        let msg = "";
+        if(state.active === "proximo") {
+            msg = `Olá! Papai e mamãe, aqui é a Raquel, secretária da Dra. Rafaela Loiola. 🌸 Passando para informar que a nova consulta do(a) *${it.name}* será necessária a partir de *${it.due}*. Estou disponível para agendarmos um horário a partir dessa data, tudo bem? Vamos agendar? ✨`;
+        } else {
+            msg = `Olá! Papai e mamãe, aqui é a Raquel, secretária da Dra. Rafaela Loiola. 🌸 Notamos que a consulta do(a) *${it.name}* venceu em *${it.due}*. Gostariam de aproveitar para atualizar o acompanhamento e agendarmos um horário? Estou à disposição! ✨`;
+        }
+        
+        const waUrl = `https://wa.me/55${waClean}?text=${encodeURIComponent(msg)}`;
+
         const tr = document.createElement("tr");
         tr.className = `status-${it.status.replace(/\s/g, '\\ ')}`;
         tr.innerHTML = `
             <td>${i+1}</td>
             <td style="text-align:left"><strong>${it.name}</strong></td>
             <td>
-                <a class="wa-btn" target="_blank" href="https://wa.me/55${waClean}">WhatsApp</a>
+                <a class="wa-btn" target="_blank" href="${waUrl}">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" width="14" style="filter:invert(42%) sepia(50%) saturate(400%) hue-rotate(110deg) brightness(95%) contrast(90%)">
+                    WhatsApp
+                </a>
                 <div style="font-size:10px; margin-top:4px">${it.tel}</div>
             </td>
             <td>${it.last}</td>
