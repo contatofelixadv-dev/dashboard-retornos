@@ -227,15 +227,15 @@ function render(){
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
         
-        // MENSAGENS CARINHOSAS E REVISADAS
-        let msg = "";
+        // RECONSTRUÇÃO DA MENSAGEM (Sempre limpa antes de gerar)
+        let msgFinal = "";
         if(state.active === "proximo") {
-            msg = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Tudo bem? Passando para avisar que a consulta do(a) *" + it.name + "* está prevista para *" + it.due + "*. Vamos agendar um horário para o acompanhamento?";
+            msgFinal = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Tudo bem? Passando para avisar que a consulta do(a) *" + it.name + "* está prevista para *" + it.due + "*. Vamos agendar um horário para o acompanhamento?";
         } else {
-            msg = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Como vocês estão? Notei que a consulta do(a) *" + it.name + "* venceu em *" + it.due + "*. Vamos aproveitar para deixar a saúde do pequeno em dia e agendar o retorno?";
+            msgFinal = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Como vocês estão? Notei que a consulta do(a) *" + it.name + "* venceu em *" + it.due + "*. Vamos aproveitar para deixar a saúde em dia e agendar o retorno?";
         }
         
-        const waUrl = "https://wa.me/55" + waClean + "?text=" + encodeURIComponent(msg);
+        const waUrl = "https://wa.me/55" + waClean + "?text=" + encodeURIComponent(msgFinal);
 
         const tr = document.createElement("tr");
         tr.className = `status-${it.status.replace(/\s/g, '\\ ')}`;
