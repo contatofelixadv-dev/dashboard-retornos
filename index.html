@@ -227,12 +227,12 @@ function render(){
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
         
-        // MENSAGENS CARINHOSAS, INFORMAIS E SEM EMOJIS (PARA EVITAR ERROS)
+        // MENSAGENS CARINHOSAS E REVISADAS
         let msg = "";
         if(state.active === "proximo") {
-            msg = "Oi! Aqui e a Raquel, secretaria da Dra. Rafaela. Tudo bem? Passando para avisar que a consulta do(a) *" + it.name + "* esta prevista para *" + it.due + "*. Vamos agendar um horariov?";
+            msg = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Tudo bem? Passando para avisar que a consulta do(a) *" + it.name + "* está prevista para *" + it.due + "*. Vamos agendar um horário para o acompanhamento?";
         } else {
-            msg = "Oi! Aqui e a Raquel, da Dra. Rafaela. Como voces estao? Vi aqui que a consulta do(a) *" + it.name + "* venceu em *" + it.due + "*. Vamos aproveitar para deixar o acompanhamento em dia?";
+            msg = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Como vocês estão? Notei que a consulta do(a) *" + it.name + "* venceu em *" + it.due + "*. Vamos aproveitar para deixar a saúde do pequeno em dia e agendar o retorno?";
         }
         
         const waUrl = "https://wa.me/55" + waClean + "?text=" + encodeURIComponent(msg);
@@ -285,7 +285,7 @@ function importCSV(type, input){
             return { name: c[0], tel: c[1], last: c[2]||"", age: c[3]||"", due: c[4]||"", status: "Pendente", obs: "" };
         }).filter(x => x && x.name);
         render();
-        alert("Lista importada! Clique em salvar.");
+        alert("Lista importada com sucesso!");
     });
 }
 
