@@ -46,6 +46,7 @@ padding:2.6rem 1rem;text-align:center
 }
 header h1{margin:0;font-size:2.5rem;font-family:'Quicksand'}
 header p{margin:10px 0 0;font-size:1.3rem;font-weight:800}
+
 .counters{display:flex;justify-content:center;gap:18px;margin-top:22px;flex-wrap:wrap}
 .counter{background:#ffffffaa;padding:12px 20px;border-radius:20px;font-weight:700}
 
@@ -63,17 +64,20 @@ table{width:100%;border-collapse:collapse;table-layout:fixed}
 th{background:#fbf1f4;padding:12px;font-size:.72rem;color:var(--accent)}
 td{padding:10px;border-bottom:1px solid var(--border);text-align:center;font-size:.86rem}
 
-.w-seq{width:32px}.w-paciente{width:18%}.w-tel{width:180px}
+.w-seq{width:32px}.w-paciente{width:18%}.w-tel{width:200px}
 .w-data{width:95px}.w-idade{width:140px}.w-status{width:200px}.w-obs{width:auto}
 
 textarea,select{width:96%;border-radius:12px;border:1px solid var(--border);padding:8px}
 
-.wa-btn{
-display:inline-flex;align-items:center;gap:8px;
-background:#eef8f1;color:#1e8449;text-decoration:none;
-padding:8px 14px;border-radius:16px;font-weight:700
+.wa-link{
+display:inline-flex;
+align-items:center;
+gap:6px;
+color:#1e8449;
+font-weight:700;
+text-decoration:none
 }
-.wa-btn:hover{background:var(--wa);color:#fff}
+.wa-link img{width:14px;height:14px}
 
 .status-Agendado{background:var(--agendado)}
 .status-Tentar\ Novamente{background:var(--tentar)}
@@ -120,9 +124,14 @@ border:none;padding:18px 38px;border-radius:50px;font-weight:800;cursor:pointer
 <table>
 <thead>
 <tr>
-<th>#</th><th>Paciente</th><th>WhatsApp</th>
-<th>Última</th><th>Idade</th>
-<th id="dateLabel"></th><th>Status</th><th>Observações</th>
+<th>#</th>
+<th>Paciente</th>
+<th>Telefone / WhatsApp</th>
+<th>Última</th>
+<th>Idade</th>
+<th id="dateLabel"></th>
+<th>Status</th>
+<th>Observações</th>
 </tr>
 </thead>
 <tbody id="tableBody"></tbody>
@@ -157,7 +166,7 @@ active:"proximo",proximo:[],vencidos:[]
 
 function formatAge(v){
  if(!v) return "";
- v=v.replace(",",".");
+ if(typeof v==="string") v=v.replace(",",".");
  let n=parseFloat(v);
  if(isNaN(n)) return v;
  let a=Math.floor(n);
@@ -224,9 +233,14 @@ function render(){
 <tr class="status-${it.status}">
 <td>${i+1}</td>
 <td><strong>${it.name}</strong></td>
-<td><a class="wa-btn" target="_blank" href="${wa}">WhatsApp</a></td>
+<td>
+<a class="wa-link" target="_blank" href="${wa}">
+${it.tel}
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg">
+</a>
+</td>
 <td>${it.last}</td>
-<td>${it.age}</td>
+<td>${formatAge(it.age)}</td>
 <td>${it.due}</td>
 <td>
 <select onchange="update(${i},this.value)">
@@ -256,7 +270,9 @@ async function gerarLog(){
  });
  const blob=new Blob([txt],{type:"text/plain"});
  const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);a.download="log.txt";a.click();
+ a.href=URL.createObjectURL(blob);
+ a.download="log.txt";
+ a.click();
 }
 
 state.active="proximo";
