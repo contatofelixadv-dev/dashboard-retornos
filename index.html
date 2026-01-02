@@ -215,7 +215,7 @@ async function updateStatus(index, newStatus) {
 function render(){
     const body = document.getElementById("tableBody");
     const list = state[state.active] || [];
-    document.getElementById("dateLabel").innerText = state.active === "proximo" ? "Deve retornar em" : "Venceu em";
+    document.getElementById("dateLabel").innerText = state.active === "proximo" ? "Recomendado após" : "Recomendado desde";
     body.innerHTML = "";
 
     const all = [...(state.proximo || []), ...(state.vencidos || [])];
@@ -227,12 +227,11 @@ function render(){
     list.forEach((it, i) => {
         const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
         
-        // RECONSTRUÇÃO DA MENSAGEM (Sempre limpa antes de gerar)
         let msgFinal = "";
         if(state.active === "proximo") {
-            msgFinal = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Tudo bem? Passando para avisar que a consulta do(a) *" + it.name + "* está prevista para *" + it.due + "*. Vamos agendar um horário para o acompanhamento?";
+            msgFinal = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Tudo bem? Passando para lembrar que, para seguir com o acompanhamento do(a) *" + it.name + "*, o ideal é que a próxima consulta ocorra a partir de *" + it.due + "*. Se quiser, já podemos deixar um horário reservado para vocês!";
         } else {
-            msgFinal = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Como vocês estão? Notei que a consulta do(a) *" + it.name + "* venceu em *" + it.due + "*. Vamos aproveitar para deixar a saúde em dia e agendar o retorno?";
+            msgFinal = "Oi! Aqui é a Raquel, secretária da Dra. Rafaela Loiola. Como vocês estão? Notei aqui que o(a) *" + it.name + "* já pode realizar uma nova consulta de acompanhamento (recomendada desde *" + it.due + "*). Vamos agendar um horário que fique bom para vocês?";
         }
         
         const waUrl = "https://wa.me/55" + waClean + "?text=" + encodeURIComponent(msgFinal);
