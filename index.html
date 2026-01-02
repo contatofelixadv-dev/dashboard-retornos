@@ -5,169 +5,85 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Controle de Retornos | Dra. Rafaela Loiola</title>
 
-<!-- ===== PROTEÇÃO POR SENHA (CORRIGIDA) ===== -->
+<!-- PROTEÇÃO POR SENHA (ESTÁVEL) -->
 <style>
-body { display: none !important; }
+body { display:none !important; }
 </style>
 
 <script>
-(function () {
-    const PAGE_PASSWORD = "rafaloiola2026";
-    const entered = prompt("Digite a senha para acessar o painel:");
-
-    if (entered === PAGE_PASSWORD) {
-        const style = document.createElement("style");
-        style.innerHTML = "body { display: block !important; }";
-        document.head.appendChild(style);
-    } else {
+(function(){
+    const PAGE_PASSWORD="rafaloiola2026";
+    const entered=prompt("Digite a senha para acessar o painel:");
+    if(entered!==PAGE_PASSWORD){
         alert("Senha incorreta. Acesso bloqueado.");
-        document.open(); document.write(""); document.close();
+        document.open();document.write("");document.close();
+        return;
     }
+    const st=document.createElement("style");
+    st.innerHTML="body{display:block !important}";
+    document.head.appendChild(st);
 })();
 </script>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- ===== SUPABASE ===== -->
+<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const sb = supabase.createClient(
-    "https://kavfloijxglfzlwgvtmd.supabase.co",
-    "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
+ "https://kavfloijxglfzlwgvtmd.supabase.co",
+ "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
 );
 </script>
 
 <style>
-body {
-    font-family: 'Inter', sans-serif;
-    background: #fdf8f9;
-    color: #4a3a3d;
-    margin: 0;
+body{font-family:'Inter',sans-serif;background:#fdf8f9;color:#4a3a3d;margin:0}
+:root{
+--primary:#d48e9b;--accent:#9c5d6a;--border:#eecad0;--wa-green:#25d366
 }
-
-:root {
-    --primary: #d48e9b;
-    --accent: #9c5d6a;
-    --border: #eecad0;
+header{
+background:linear-gradient(135deg,#e4aab5,#d48e9b);
+color:#fff;padding:1.5rem;text-align:center
 }
-
-header {
-    background: linear-gradient(135deg,#e4aab5,#d48e9b);
-    color: #fff;
-    padding: 1.5rem;
-    text-align: center;
+.container{max-width:98%;margin:1rem auto}
+.import-section{display:flex;gap:15px;justify-content:center;margin-bottom:1.5rem}
+.import-box{
+background:#fff;padding:10px 15px;border-radius:15px;
+border:2px dashed var(--primary);text-align:center;flex:1;max-width:350px
 }
-
-.container { max-width: 98%; margin: 1rem auto; }
-
-.import-section {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 1.5rem;
+.btn-file{
+background:var(--accent);color:#fff;border:none;
+padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer;width:100%
 }
-
-.import-box {
-    background: #fff;
-    padding: 10px 15px;
-    border-radius: 15px;
-    border: 2px dashed var(--primary);
-    text-align: center;
-    flex: 1;
-    max-width: 350px;
+.tabs{display:flex;justify-content:center;gap:10px;margin-bottom:1rem}
+.tab-btn{
+padding:12px 30px;border-radius:25px;border:1px solid var(--border);
+background:#fff;font-weight:700;cursor:pointer
 }
-
-.btn-file {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    width: 100%;
+.tab-btn.active{background:var(--primary);color:#fff}
+.table-card{background:#fff;border-radius:20px;overflow:hidden}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{
+background:#fcf0f2;padding:12px;font-size:.75rem;
+text-transform:uppercase;color:var(--accent)
 }
-
-.tabs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 1rem;
+td{padding:10px;border-bottom:1px solid #f1dfe3;text-align:center;font-size:.85rem}
+.w-paciente{width:22%}.w-tel{width:220px}.w-data{width:100px}.w-idade{width:160px}
+textarea,select{width:95%;border-radius:8px;padding:6px;border:1px solid var(--border)}
+.wa-btn{
+display:inline-flex;align-items:center;gap:6px;
+background:#e9f7ef;color:#1e8449;text-decoration:none;
+padding:6px 10px;border-radius:10px;font-weight:700
 }
-
-.tab-btn {
-    padding: 12px 30px;
-    border-radius: 25px;
-    border: 1px solid var(--border);
-    background: #fff;
-    font-weight: 700;
-    cursor: pointer;
+.btn-save{
+position:fixed;bottom:25px;right:25px;background:var(--accent);
+color:#fff;border:none;padding:15px 30px;border-radius:40px;font-weight:700;cursor:pointer
 }
-
-.tab-btn.active {
-    background: var(--primary);
-    color: #fff;
+.log-box{
+margin:40px auto;background:#fff;padding:20px;border-radius:20px;
+max-width:600px;text-align:center
 }
-
-.table-card {
-    background: #fff;
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th {
-    background: #fcf0f2;
-    padding: 12px;
-    font-size: 0.75rem;
-}
-
-td {
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #f1dfe3;
-}
-
-select, textarea {
-    width: 95%;
-    border-radius: 8px;
-    padding: 6px;
-    border: 1px solid var(--border);
-}
-
-.btn-save {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 40px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.log-box {
-    margin: 40px auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 20px;
-    max-width: 600px;
-    text-align: center;
-}
-
-.log-box input {
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-}
-
-.footer-spacer { height: 120px; }
+.footer-spacer{height:120px}
 </style>
 </head>
 
@@ -175,38 +91,44 @@ select, textarea {
 
 <header>
 <h1>Controle de Retornos de Pacientes</h1>
-<p>Dra. Rafaela Loiola</p>
+<p>🌸 Dra. Rafaela Loiola 🌸</p>
 </header>
 
 <div class="container">
 
 <div class="import-section">
-    <div class="import-box">
-        <input type="file" id="fP" hidden onchange="importCSV('proximo',this)">
-        <button class="btn-file" onclick="fP.click()">📂 Importar Próximo Mês</button>
-    </div>
-    <div class="import-box">
-        <input type="file" id="fV" hidden onchange="importCSV('vencidos',this)">
-        <button class="btn-file" onclick="fV.click()">📂 Importar Vencidos</button>
-    </div>
+ <div class="import-box">
+  <input type="file" id="fP" hidden onchange="importCSV('proximo',this)">
+  <button class="btn-file" onclick="fP.click()">📂 CARREGAR A VENCER</button>
+ </div>
+ <div class="import-box">
+  <input type="file" id="fV" hidden onchange="importCSV('vencidos',this)">
+  <button class="btn-file" onclick="fV.click()">📂 CARREGAR VENCIDOS</button>
+ </div>
 </div>
 
 <div class="tabs">
-    <button class="tab-btn" id="tP" onclick="changeTab('proximo')">PRÓXIMOS</button>
-    <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">VENCIDOS</button>
+ <button class="tab-btn" id="tP" onclick="changeTab('proximo')">🍼 A VENCER</button>
+ <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">⚠️ VENCIDOS</button>
 </div>
 
 <div class="table-card">
 <table>
 <thead>
 <tr>
-<th>#</th><th>Paciente</th><th>Status</th><th>Observações</th>
+<th>#</th>
+<th class="w-paciente">Paciente</th>
+<th class="w-tel">WhatsApp</th>
+<th class="w-data">Última Consulta</th>
+<th class="w-idade">Idade</th>
+<th class="w-data" id="dateLabel"></th>
+<th>Status</th>
+<th>Observações</th>
 </tr>
 </thead>
 <tbody id="tableBody"></tbody>
 </table>
 </div>
-
 </div>
 
 <div class="log-box">
@@ -214,112 +136,103 @@ select, textarea {
 <input type="date" id="logIni">
 <input type="date" id="logFim">
 <br><br>
-<button class="btn-file" onclick="gerarLog()">GERAR ARQUIVO</button>
+<button class="btn-file" onclick="gerarLog()">GERAR LOG</button>
 </div>
 
 <div class="footer-spacer"></div>
-
-<button class="btn-save" onclick="saveData()">Salvar</button>
+<button class="btn-save" onclick="saveData()">SALVAR</button>
 
 <script>
 const STORAGE_KEY="DraRafaela_Dados_Oficial";
-
-let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-    active:"proximo", proximo:[], vencidos:[]
+let state=JSON.parse(localStorage.getItem(STORAGE_KEY))||{
+active:"proximo",proximo:[],vencidos:[]
 };
 
 function changeTab(t){
-    state.active=t;
-    tP.classList.toggle("active",t==="proximo");
-    tV.classList.toggle("active",t==="vencidos");
-    render();
+ state.active=t;
+ tP.classList.toggle("active",t==="proximo");
+ tV.classList.toggle("active",t==="vencidos");
+ render();
 }
 
 function importCSV(type,input){
-    if(prompt("Senha CSV")!=="u47hbyk4"){input.value="";return;}
-    input.files[0].text().then(txt=>{
-        const rows=txt.split(/\r?\n/).slice(1);
-        state[type]=rows.map(r=>{
-            const c=r.split(";");
-            return {name:c[0]||"",status:"Pendente",obs:""};
-        }).filter(x=>x.name);
-        autoSave();
-        changeTab(type);
-    });
+ if(prompt("Senha CSV")!=="u47hbyk4"){input.value="";return;}
+ input.files[0].text().then(txt=>{
+  const rows=txt.split(/\r?\n/).slice(1);
+  state[type]=rows.map(r=>{
+   const c=r.split(";").map(x=>x.trim());
+   return{
+    name:c[0]||"",tel:c[1]||"",last:c[2]||"",
+    age:c[3]||"",due:c[4]||"",status:"Pendente",obs:""
+   };
+  }).filter(x=>x.name);
+  autoSave();changeTab(type);
+ });
 }
 
 async function update(i,v){
-    const item=state[state.active][i];
-    const old=item.status;
-    if(old===v)return;
-    item.status=v;
-
-    await sb.from("painel_logs").insert({
-        paciente:item.name,
-        status_anterior:old,
-        status_novo:v,
-        aba:state.active
-    });
-
-    autoSave();
+ const item=state[state.active][i];
+ const old=item.status;
+ if(old===v)return;
+ item.status=v;
+ await sb.from("painel_logs").insert({
+  paciente:item.name,status_anterior:old,status_novo:v,aba:state.active
+ });
+ autoSave();
 }
 
 function render(){
-    const body=document.getElementById("tableBody");
-    body.innerHTML="";
-    const list=state[state.active];
-    if(!list.length){
-        body.innerHTML="<tr><td colspan='4'>Sem dados</td></tr>";
-        return;
-    }
-    list.forEach((it,i)=>{
-        body.innerHTML+=`
-        <tr>
-        <td>${i+1}</td>
-        <td>${it.name}</td>
-        <td>
-        <select onchange="update(${i},this.value)">
-            <option ${it.status==="Pendente"?"selected":""}>Pendente</option>
-            <option ${it.status==="Agendado"?"selected":""}>Agendado</option>
-            <option ${it.status==="Recusou"?"selected":""}>Recusou</option>
-        </select>
-        </td>
-        <td><textarea onchange="it.obs=this.value">${it.obs||""}</textarea></td>
-        </tr>`;
-    });
+ const body=document.getElementById("tableBody");
+ const list=state[state.active];
+ document.getElementById("dateLabel").innerText=
+  state.active==="proximo"?"DEVE VIR EM":"VENCEU EM";
+ body.innerHTML="";
+ if(!list.length){
+  body.innerHTML="<tr><td colspan='8' style='padding:40px;color:#aaa'>Sem dados</td></tr>";
+  return;
+ }
+ list.forEach((it,i)=>{
+  const wa=`https://wa.me/55${it.tel.replace(/\D/g,"")}`;
+  body.innerHTML+=`
+<tr>
+<td>${i+1}</td>
+<td>${it.name}</td>
+<td><a class="wa-btn" target="_blank" href="${wa}">📱 ${it.tel}</a></td>
+<td>${it.last}</td>
+<td>${it.age}</td>
+<td>${it.due}</td>
+<td>
+<select onchange="update(${i},this.value)">
+<option ${it.status==="Pendente"?"selected":""}>Pendente</option>
+<option ${it.status==="Agendado"?"selected":""}>Agendado</option>
+<option ${it.status==="Tentar Novamente"?"selected":""}>Tentar Novamente</option>
+<option ${it.status==="Recusou"?"selected":""}>Recusou</option>
+</select>
+</td>
+<td><textarea onchange="it.obs=this.value">${it.obs||""}</textarea></td>
+</tr>`;
+ });
 }
 
-function autoSave(){
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-}
-
-function saveData(){
-    autoSave();
-    alert("Dados salvos");
-}
+function autoSave(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
+function saveData(){autoSave();alert("Dados salvos")}
 
 async function gerarLog(){
-    const ini=logIni.value, fim=logFim.value;
-    const {data}=await sb
-        .from("painel_logs")
-        .select("*")
-        .gte("created_at",ini+"T00:00")
-        .lte("created_at",fim+"T23:59")
-        .order("created_at",{ascending:true});
-
-    let txt="LOG DE ALTERAÇÕES\n\n";
-    data.forEach(l=>{
-        txt+=`${l.created_at} | ${l.paciente} | ${l.status_anterior} → ${l.status_novo} | ${l.aba}\n`;
-    });
-
-    const blob=new Blob([txt],{type:"text/plain"});
-    const a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download="log.txt";
-    a.click();
+ const ini=logIni.value,fim=logFim.value;
+ const {data}=await sb.from("painel_logs")
+  .select("*")
+  .gte("created_at",ini+"T00:00")
+  .lte("created_at",fim+"T23:59")
+  .order("created_at",{ascending:true});
+ let txt="LOG DE ALTERAÇÕES\n\n";
+ data.forEach(l=>{
+  txt+=`${l.created_at} | ${l.paciente} | ${l.status_anterior} → ${l.status_novo} | ${l.aba}\n`;
+ });
+ const blob=new Blob([txt],{type:"text/plain"});
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);a.download="log.txt";a.click();
 }
 
-/* NORMALIZAÇÃO INICIAL */
 changeTab(state.active);
 </script>
 
