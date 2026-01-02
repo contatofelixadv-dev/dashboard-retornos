@@ -1,255 +1,315 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Retornos | Dra. Rafaela Loiola</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Retornos | Dra. Rafaela Loiola</title>
 
-    <style>
-        body { display: none; } /* Esconde o corpo inicialmente */
-    </style>
-    
-    <script>
-    (function(){
-        const senhaCorreta = "rafaloiola2026";
-        const entrada = prompt("✨ Digite a senha para acessar ✨");
-        
-        if(entrada !== senhaCorreta){
-            alert("Senha incorreta!");
-            window.stop(); // Para o carregamento
-            document.documentElement.innerHTML = ""; // Limpa a tela
-            return;
-        }
-        // Se a senha estiver correta, mostra o corpo após o carregamento
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.style.display = "block";
-        });
-    })();
-    </script>
+<style>body{display:none!important}</style>
 
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+    const PAGE_PASSWORD="rafaloiola2026";
+    const entered=prompt("✨ Digite a senha para acessar o painel ✨");
+    if(entered!==PAGE_PASSWORD){
+        alert("Senha incorreta. Acesso não autorizado 🌸");
+        document.open();document.write("");document.close();
+        return;
+    }
+    // Correção para evitar página branca: garante que o estilo seja aplicado após o carregamento
+    document.addEventListener("DOMContentLoaded", function() {
+        const st=document.createElement("style");
+        st.innerHTML="body{display:block!important}";
+        document.head.appendChild(st);
+    });
+})();
+</script>
 
-    <script>
-    const sb = supabase.createClient(
-        "https://kavfloijxglfzlwgvtmd.supabase.co",
-        "sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
-    );
-    </script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        :root{
-            --primary:#e8b6c3;
-            --accent:#b87586;
-            --bg:#fffafa;
-            --text:#4a3a3d;
-            --border:#f1d6dc;
-            --pending:transparent;
-            --ok:#d9efe5;
-            --retry:#f6ecd9;
-            --no:#f3d6d9;
-        }
-        body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);margin:0}
-        header{
-            background:linear-gradient(135deg,#f3ccd6,#e8b6c3);
-            text-align:center;padding:1.5rem;color:#7a3d4b
-        }
-        header h1{font-family:Quicksand;font-size:2rem;margin:0}
-        header p{margin:.4rem 0 0;font-weight:700;font-size:1.1rem}
-        .counter{margin-top:.6rem;font-weight:700}
-        .container{max-width:98%;margin:1rem auto}
-        .tabs{display:flex;justify-content:center;gap:12px;margin-bottom: 20px;}
-        .tab-btn{
-            padding:12px 35px;border-radius:30px;border:1px solid var(--border);
-            background:white;font-weight:700;cursor:pointer;font-size:1rem
-        }
-        .tab-btn.active{background:var(--primary);color:white}
-        .table-card{background:white;border-radius:20px;overflow-x:auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
-        table{width:100%;border-collapse:collapse; min-width: 800px;}
-        th{background:#fcf0f2;padding:14px;font-size:.75rem; text-transform: uppercase; color: #a37a85;}
-        td{padding:10px;text-align:center; border-bottom: 1px solid #f9f0f2;}
-        .w-seq{width:40px}
-        .w-paciente{width:20%}
-        .w-tel{width:220px}
-        .w-status{width:180px}
-        .wa-btn{
-            display:inline-flex;align-items:center;gap:6px;
-            background:#e9f7ef;padding:6px 12px;border-radius:12px;
-            font-weight:700;color:#1e8449;text-decoration:none; font-size: 0.9rem;
-        }
-        .status-Pendente{background:var(--pending)}
-        .status-Agendado{background:var(--ok)}
-        .status-Tentar\ Novamente{background:var(--retry)}
-        .status-Recusou{background:var(--no)}
-        
-        textarea {
-            width: 90%; border: 1px solid var(--border); border-radius: 8px; padding: 5px; font-family: inherit;
-        }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=supabase.createClient(
+"https://kavfloijxglfzlwgvtmd.supabase.co",
+"sb_publishable_Fqmz6y2CXCzBCzGLINr2Pg_L_my3zDP"
+);
+</script>
 
-        .btn-save{
-            position:fixed;bottom:30px;right:30px;
-            background:var(--accent);color:white;border:none;
-            padding:15px 35px;border-radius:50px;font-weight:700;cursor:pointer;
-            box-shadow: 0 4px 15px rgba(184, 117, 134, 0.4);
-            z-index: 100;
-        }
-        .footer-spacer{height:100px}
-    </style>
+<style>
+:root{
+--bg:#fdfafb;--card:#fff;--primary:#e8b6c2;--accent:#b87486;
+--border:#f1d6dd;--text:#4a3a3d;
+--agendado:#e6f2ec;--tentar:#f5efe6;--recusou:#f3e1e1;
+--wa:#25d366;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);margin:0}
+header{
+background:linear-gradient(135deg,#f3ccd6,#e6b7c3);
+padding:2.6rem 1rem;text-align:center
+}
+header h1{margin:0;font-size:2.5rem;font-family:'Quicksand'}
+header p{margin:10px 0 0;font-size:1.3rem;font-weight:800}
+
+.counters{display:flex;justify-content:center;gap:18px;margin-top:22px;flex-wrap:wrap}
+.counter{background:#ffffffaa;padding:12px 20px;border-radius:20px;font-weight:700}
+
+.tabs{display:flex;justify-content:center;gap:14px;margin:1.2rem}
+.tab-btn{
+padding:14px 40px;border-radius:35px;border:1px solid var(--border);
+background:#fff;font-weight:800;cursor:pointer;font-size:1rem;
+display:flex;align-items:center;gap:10px
+}
+.tab-btn span{font-size:1.5rem}
+.tab-btn.active{background:var(--primary);color:#fff}
+
+.table-card{background:#fff;border-radius:24px;overflow-x:auto;margin:0 1rem;box-shadow: 0 4px 10px rgba(0,0,0,0.03)}
+table{width:100%;border-collapse:collapse; min-width: 1000px;}
+th{background:#fbf1f4;padding:12px;font-size:.72rem;color:var(--accent); text-transform: uppercase}
+td{padding:10px;border-bottom:1px solid var(--border);text-align:center;font-size:.86rem}
+
+.w-seq{width:40px}.w-paciente{width:18%}.w-tel{width:180px}
+.w-data{width:95px}.w-idade{width:140px}.w-status{width:200px}.w-obs{width:auto}
+
+textarea,select{width:96%;border-radius:12px;border:1px solid var(--border);padding:8px;font-family: inherit}
+
+.wa-btn{
+display:inline-flex;align-items:center;gap:8px;
+background:#eef8f1;color:#1e8449;text-decoration:none;
+padding:8px 14px;border-radius:16px;font-weight:700
+}
+.wa-btn:hover{background:var(--wa);color:#fff}
+
+.status-Agendado{background:var(--agendado)}
+.status-Tentar\ Novamente{background:var(--tentar)}
+.status-Recusou{background:var(--recusou)}
+
+.import-section{display:flex;gap:16px;justify-content:center;margin:45px auto 25px; flex-wrap: wrap}
+.import-box{
+background:#fff;padding:16px;border-radius:22px;border:2px dashed var(--primary);
+max-width:360px;flex:1;text-align:center
+}
+.btn-file{
+background:var(--accent);color:#fff;border:none;
+padding:12px;border-radius:18px;font-weight:800;cursor:pointer;width:100%
+}
+
+.log-box{margin:30px auto;background:#fff;padding:28px;border-radius:26px;max-width:650px;text-align:center; border: 1px solid var(--border)}
+.btn-save{
+position:fixed;bottom:26px;right:26px;background:var(--accent);color:#fff;
+border:none;padding:18px 38px;border-radius:50px;font-weight:800;cursor:pointer;
+box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100;
+}
+.footer-spacer{height:150px}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>Controle de Retornos</h1>
-    <p>🌸 Dra. Rafaela Loiola 🌸</p>
-    <div class="counter" id="contador">Carregando pacientes...</div>
+<h1>🌸 Controle de Retornos de Pacientes 🌸</h1>
+<p>👩‍⚕️ Dra. Rafaela Loiola ✨</p>
+<div class="counters">
+<div class="counter">⏳ Pendentes: <span id="cPend">0</span></div>
+<div class="counter">✅ Agendados: <span id="cAgen">0</span></div>
+<div class="counter">🔁 Tentar novamente: <span id="cTent">0</span></div>
+<div class="counter">❌ Recusou: <span id="cRec">0</span></div>
+</div>
 </header>
 
-<div class="container">
-    <div class="tabs">
-        <button class="tab-btn active" id="tP" onclick="changeTab('proximo')">🍼 A Vencer</button>
-        <button class="tab-btn" id="tV" onclick="changeTab('vencidos')">⚠️ Vencidos</button>
-    </div>
+<div class="tabs">
+<button class="tab-btn" id="tP" onclick="changeTab('proximo')"><span>🧸</span> A vencer</button>
+<button class="tab-btn" id="tV" onclick="changeTab('vencidos')"><span>🍂</span> Vencidos</button>
+</div>
 
-    <div class="table-card">
-        <table>
-            <thead>
-                <tr>
-                    <th class="w-seq">#</th>
-                    <th class="w-paciente">Paciente</th>
-                    <th class="w-tel">Telefone / WhatsApp</th>
-                    <th>Última Consulta</th>
-                    <th>Idade</th>
-                    <th id="dateLabel">Vencimento</th>
-                    <th class="w-status">Status</th>
-                    <th class="w-obs">Observações</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <tr><td colspan="8" style="padding:40px;color:#aaa">Carregando dados...</td></tr>
-            </tbody>
-        </table>
-    </div>
+<div class="table-card">
+<table>
+<thead>
+<tr>
+<th class="w-seq">#</th>
+<th class="w-paciente">Paciente</th>
+<th class="w-tel">Telefone / WhatsApp</th>
+<th class="w-data">Última</th>
+<th class="w-idade">Idade</th>
+<th id="dateLabel" class="w-data"></th>
+<th class="w-status">Status</th>
+<th class="w-obs">Observações</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+
+<div class="import-section">
+<div class="import-box">
+<input type="file" id="fP" hidden onchange="importCSV('proximo',this)">
+<button class="btn-file" onclick="fP.click()">🍼 Importar lista a vencer</button>
+</div>
+<div class="import-box">
+<input type="file" id="fV" hidden onchange="importCSV('vencidos',this)">
+<button class="btn-file" onclick="fV.click()">⚠️ Importar lista vencida</button>
+</div>
+</div>
+
+<div class="log-box">
+<h3>📜 Gerar Relatório de Atividades</h3>
+<input type="date" id="logIni">
+<input type="date" id="logFim"><br><br>
+<button class="btn-file" onclick="gerarLog()">💾 Gerar LOG (.txt)</button>
 </div>
 
 <div class="footer-spacer"></div>
-
-<button class="btn-save" onclick="salvarDados()">💖 Salvar Tudo</button>
+<button class="btn-save" onclick="saveData()">💖 Salvar alterações</button>
 
 <script>
-// Estado inicial robusto
-let state = {
-    active: "proximo",
-    proximo: [],
-    vencidos: []
+const STORAGE_KEY="DraRafaela_Dados_Oficial";
+let state=JSON.parse(localStorage.getItem(STORAGE_KEY))||{
+    active:"proximo",proximo:[],vencidos:[]
 };
 
-/* ====== SUPABASE ====== */
-async function carregarDados(){
-    try {
-        const { data, error } = await sb.from("painel_dados").select("dados").eq("id", 1).single();
-        
-        if (error) {
-            console.warn("Aviso: Banco de dados pode estar vazio ou erro na conexão", error);
-        }
-
-        if (data && data.dados) { 
-            state = data.dados; 
-        }
-        
-        state.active = "proximo"; 
-        render();
-    } catch (err) {
-        console.error("Erro crítico ao carregar:", err);
-        render(); // Renderiza mesmo com erro para mostrar estado vazio
-    }
-}
-
-async function salvarDados(){
-    try {
-        const { error } = await sb.from("painel_dados").upsert({
-            id: 1,
-            dados: state,
-            updated_at: new Date().toISOString()
-        });
-
-        if (error) throw error;
-        alert("✨ Tudo salvo na nuvem!");
-    } catch (err) {
-        alert("Erro ao salvar! Verifique sua conexão.");
-        console.error(err);
-    }
-}
-
-/* ====== UTIL ====== */
 function formatAge(v){
     if(!v) return "";
-    const p = v.toString().split(",");
-    if(p.length === 2) return `${p[0]} ano(s) e ${p[1]} mes(es)`;
+    let s = v.toString().replace(",", ".");
+    let n = parseFloat(s);
+    if(isNaN(n)) return v;
+    let a = Math.floor(n);
+    let m = Math.round((n-a)*100);
+    if(a>0 && m>0) return `${a} anos e ${m} meses`;
+    if(a>0) return `${a} anos`;
+    if(m>0) return `${m} meses`;
     return v;
 }
 
-/* ====== UI ====== */
 function changeTab(t){
-    state.active = t;
-    document.getElementById("tP").classList.toggle("active", t === "proximo");
-    document.getElementById("tV").classList.toggle("active", t === "vencidos");
+    state.active=t;
+    document.getElementById("tP").classList.toggle("active",t==="proximo");
+    document.getElementById("tV").classList.toggle("active",t==="vencidos");
     render();
 }
 
-function updateRow(index, field, value){
-    state[state.active][index][field] = value;
-    // Não chamamos render() aqui para evitar que o teclado perca o foco no celular
+function importCSV(type,input){
+    if(prompt("Senha de Importação")!=="u47hbyk4"){
+        alert("Senha incorreta!");
+        input.value="";
+        return;
+    }
+    const file = input.files[0];
+    if(!file) return;
+    
+    file.text().then(txt=>{
+        const rows=txt.split(/\r?\n/).slice(1);
+        state[type]=rows.map(r=>{
+            const c=r.split(";").map(x=>x.trim());
+            if(c.length < 2) return null;
+            return {
+                name:c[0], tel:c[1], last:c[2]||"",
+                age:c[3]||"", due:c[4]||"",
+                status:"Pendente", obs:""
+            };
+        }).filter(x=>x && x.name);
+        autoSave();
+        render();
+        alert("Importado com sucesso!");
+    });
+}
+
+async function update(i,v){
+    const it=state[state.active][i];
+    const old=it.status;
+    it.status=v;
+    
+    // Envia Log para o Supabase
+    try {
+        await sb.from("painel_logs").insert({
+            paciente: it.name,
+            status_anterior: old,
+            status_novo: v,
+            aba: state.active
+        });
+    } catch(e) { console.error("Erro ao logar no Supabase"); }
+    
+    autoSave();
+    render();
 }
 
 function render(){
-    const list = state[state.active] || [];
-    const dateLabel = document.getElementById("dateLabel");
-    if(dateLabel) dateLabel.innerText = state.active === "proximo" ? "DEVE VIR EM" : "VENCEU EM";
+    const body=document.getElementById("tableBody");
+    const list=state[state.active] || [];
+    document.getElementById("dateLabel").innerText = state.active==="proximo"?"Deve retornar em":"Venceu em";
+    body.innerHTML="";
 
-    const total = (state.proximo ? state.proximo.length : 0) + (state.vencidos ? state.vencidos.length : 0);
-    document.getElementById("contador").innerText = `Total: ${total} pacientes`;
-
-    const body = document.getElementById("tableBody");
-    body.innerHTML = "";
+    // Atualiza contadores
+    let all=[...(state.proximo||[]),...(state.vencidos||[])];
+    document.getElementById("cPend").textContent=all.filter(i=>i.status==="Pendente").length;
+    document.getElementById("cAgen").textContent=all.filter(i=>i.status==="Agendado").length;
+    document.getElementById("cTent").textContent=all.filter(i=>i.status==="Tentar Novamente").length;
+    document.getElementById("cRec").textContent=all.filter(i=>i.status==="Recusou").length;
 
     if(!list.length){
-        body.innerHTML = `<tr><td colspan="8" style="padding:40px;color:#aaa">
-        Aguardando com carinho 🌸</td></tr>`;
+        body.innerHTML="<tr><td colspan='8' style='padding:40px;color:#aaa'>Aguardando com carinho 💕</td></tr>";
         return;
     }
 
-    list.forEach((it, i) => {
-        const tr = document.createElement("tr");
-        tr.className = `status-${it.status?.replace(/\s/g, '\\ ')}`;
+    list.forEach((it,i)=>{
+        const waClean = it.tel ? it.tel.replace(/\D/g,"") : "";
+        const waUrl=`https://wa.me/55${waClean}`;
         
+        const tr = document.createElement("tr");
+        tr.className = `status-${it.status.replace(/\s/g, '\\ ')}`;
         tr.innerHTML = `
             <td>${i+1}</td>
-            <td style="text-align:left;font-weight:700">${it.name || 'Sem nome'}</td>
+            <td><strong>${it.name}</strong></td>
             <td>
-                <a class="wa-btn" target="_blank" href="https://wa.me/55${it.tel ? it.tel.replace(/\D/g,'') : ''}">
-                    <small>💬</small> ${it.tel || 'Sem tel'}
+                <a class="wa-btn" target="_blank" href="${waUrl}">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" width="14" style="filter:invert(42%) sepia(50%) saturate(400%) hue-rotate(110deg) brightness(95%) contrast(90%)">
+                    WhatsApp
                 </a>
+                <div style="font-size:10px; margin-top:4px">${it.tel}</div>
             </td>
-            <td>${it.last || '-'}</td>
+            <td>${it.last}</td>
             <td>${formatAge(it.age)}</td>
-            <td>${it.due || '-'}</td>
+            <td>${it.due}</td>
             <td>
-                <select onchange="updateRow(${i},'status',this.value); this.parentElement.parentElement.className='status-'+this.value.replace(/ /g, '\\ ')">
+                <select onchange="update(${i},this.value)">
                     <option ${it.status==="Pendente"?"selected":""}>Pendente</option>
                     <option ${it.status==="Agendado"?"selected":""}>Agendado</option>
                     <option ${it.status==="Tentar Novamente"?"selected":""}>Tentar Novamente</option>
                     <option ${it.status==="Recusou"?"selected":""}>Recusou</option>
                 </select>
             </td>
-            <td><textarea onchange="updateRow(${i},'obs',this.value)">${it.obs||""}</textarea></td>
+            <td><textarea onchange="state[state.active][${i}].obs=this.value;autoSave()">${it.obs||""}</textarea></td>
         `;
         body.appendChild(tr);
     });
 }
 
-// Inicialização
-window.addEventListener("load", carregarDados);
+function autoSave(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
+function saveData(){autoSave();alert("Tudo salvo localmente com carinho 💖")}
+
+async function gerarLog(){
+    if(!logIni.value || !logFim.value) { alert("Escolha as datas"); return; }
+    const {data, error}=await sb.from("painel_logs")
+        .select("*")
+        .gte("created_at",logIni.value+"T00:00:00")
+        .lte("created_at",logFim.value+"T23:59:59")
+        .order("created_at",{ascending:true});
+        
+    if(error || !data) { alert("Nenhum log encontrado"); return; }
+
+    let txt="LOG DE ALTERAÇÕES - DRA RAFAELA LOIOLA\n\n";
+    data.forEach(l=>{
+        txt+=`${new Date(l.created_at).toLocaleString()} | ${l.paciente} | ${l.status_anterior} → ${l.status_novo} | Aba: ${l.aba}\n`;
+    });
+    const blob=new Blob([txt],{type:"text/plain"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=`log_retornos_${logIni.value}.txt`;
+    a.click();
+}
+
+// Inicia na aba correta
+document.addEventListener("DOMContentLoaded", () => {
+    changeTab("proximo");
+});
 </script>
 
 </body>
